@@ -1,0 +1,6 @@
+/Users/owner/api-quality-platform-reference/rest-assured/src/test/java/com/wag/qe/api/CartApiTest.java
+/Users/owner/api-quality-platform-reference/rest-assured/src/test/java/com/wag/qe/api/PrescriptionApiTest.java
+/Users/owner/api-quality-platform-reference/rest-assured/src/test/java/com/wag/qe/api/client/CartApiClient.java
+/Users/owner/api-quality-platform-reference/rest-assured/src/test/java/com/wag/qe/api/client/PatientApiClient.java
+/Users/owner/api-quality-platform-reference/rest-assured/src/test/java/com/wag/qe/api/client/PrescriptionApiClient.java
+/Users/owner/api-quality-platform-reference/rest-assured/src/test/java/com/wag/qe/api/config/ApiConfig.java

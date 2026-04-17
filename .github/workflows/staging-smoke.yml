@@ -1,0 +1,47 @@
+name: Staging Smoke — Post-Deploy Health Check
+
+on:
+  workflow_dispatch:
+    inputs:
+      staging_url:
+        description: 'Staging base URL'
+        required: true
+        default: 'https://staging-api.walgreens.com'
+  # Triggered by deployment pipeline via workflow_call or repository_dispatch
+  repository_dispatch:
+    types: [staging-deployed]
+
+jobs:
+  smoke:
+    name: Karate Smoke — Staging
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: temurin
+          cache: maven
+
+      - name: Run smoke scenarios against staging
+        run: |
+          mvn verify -pl karate \
+            -Dapi.base.url=${{ github.event.inputs.staging_url || github.event.client_payload.staging_url }} \
+            -Dkarate.env=staging \
+            -Dkarate.options="--tags @smoke"
+
+      - name: Notify PagerDuty on failure
+        if: failure()
+        uses: PagerDuty/pagerduty-action@v1
+        with:
+          pagerduty-integration-key: ${{ secrets.PAGERDUTY_INTEGRATION_KEY }}
+          pagerduty-dedup-key: staging-smoke-${{ github.run_id }}
+          pagerduty-description: 'Staging smoke suite failed post-deploy — ${{ github.sha }}'
+          pagerduty-severity: critical
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: staging-smoke-results
+          path: karate/target/karate-reports/

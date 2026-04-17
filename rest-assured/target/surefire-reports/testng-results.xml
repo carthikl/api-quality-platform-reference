@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="0" total="7" passed="7" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2026-04-17T17:45:22 EDT" name="Surefire suite" finished-at="2026-04-17T17:45:26 EDT" duration-ms="3862">
+    <groups>
+      <group name="prescription">
+        <method signature="PrescriptionApiTest.getPatientRecord_invalidId_returns404()[pri:0, instance:com.wag.qe.api.PrescriptionApiTest@418c5a9c]" name="getPatientRecord_invalidId_returns404" class="com.wag.qe.api.PrescriptionApiTest"/>
+        <method signature="PrescriptionApiTest.getPatientRecord_validId_returns200WithSchema()[pri:0, instance:com.wag.qe.api.PrescriptionApiTest@418c5a9c]" name="getPatientRecord_validId_returns200WithSchema" class="com.wag.qe.api.PrescriptionApiTest"/>
+        <method signature="PrescriptionApiTest.prescriptionSubmission_responseTime_underSLA()[pri:0, instance:com.wag.qe.api.PrescriptionApiTest@418c5a9c]" name="prescriptionSubmission_responseTime_underSLA" class="com.wag.qe.api.PrescriptionApiTest"/>
+        <method signature="PrescriptionApiTest.submitPrescriptionRefill_validPayload_returns201()[pri:0, instance:com.wag.qe.api.PrescriptionApiTest@418c5a9c]" name="submitPrescriptionRefill_validPayload_returns201" class="com.wag.qe.api.PrescriptionApiTest"/>
+      </group> <!-- prescription -->
+      <group name="cart">
+        <method signature="CartApiTest.addToCart_validItem_returns201()[pri:0, instance:com.wag.qe.api.CartApiTest@73a8da0f]" name="addToCart_validItem_returns201" class="com.wag.qe.api.CartApiTest"/>
+        <method signature="CartApiTest.getCartItems_validPatient_returnsCollection()[pri:0, instance:com.wag.qe.api.CartApiTest@73a8da0f]" name="getCartItems_validPatient_returnsCollection" class="com.wag.qe.api.CartApiTest"/>
+        <method signature="CartApiTest.getCartItems_verifyContentType_isJSON()[pri:0, instance:com.wag.qe.api.CartApiTest@73a8da0f]" name="getCartItems_verifyContentType_isJSON" class="com.wag.qe.api.CartApiTest"/>
+      </group> <!-- cart -->
+    </groups>
+    <test started-at="2026-04-17T17:45:22 EDT" name="Surefire test" finished-at="2026-04-17T17:45:26 EDT" duration-ms="3862">
+      <class name="com.wag.qe.api.CartApiTest">
+        <test-method is-config="true" signature="setup()[pri:0, instance:com.wag.qe.api.CartApiTest@73a8da0f]" started-at="2026-04-17T17:45:22 EDT" name="setup" finished-at="2026-04-17T17:45:22 EDT" duration-ms="16" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setup -->
+        <test-method signature="addToCart_validItem_returns201()[pri:0, instance:com.wag.qe.api.CartApiTest@73a8da0f]" started-at="2026-04-17T17:45:22 EDT" name="addToCart_validItem_returns201" finished-at="2026-04-17T17:45:25 EDT" duration-ms="2768" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- addToCart_validItem_returns201 -->
+        <test-method signature="getCartItems_validPatient_returnsCollection()[pri:0, instance:com.wag.qe.api.CartApiTest@73a8da0f]" started-at="2026-04-17T17:45:25 EDT" name="getCartItems_validPatient_returnsCollection" finished-at="2026-04-17T17:45:25 EDT" duration-ms="301" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- getCartItems_validPatient_returnsCollection -->
+        <test-method signature="getCartItems_verifyContentType_isJSON()[pri:0, instance:com.wag.qe.api.CartApiTest@73a8da0f]" started-at="2026-04-17T17:45:25 EDT" name="getCartItems_verifyContentType_isJSON" finished-at="2026-04-17T17:45:25 EDT" duration-ms="105" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- getCartItems_verifyContentType_isJSON -->
+      </class> <!-- com.wag.qe.api.CartApiTest -->
+      <class name="com.wag.qe.api.PrescriptionApiTest">
+        <test-method is-config="true" signature="setup()[pri:0, instance:com.wag.qe.api.PrescriptionApiTest@418c5a9c]" started-at="2026-04-17T17:45:25 EDT" name="setup" finished-at="2026-04-17T17:45:25 EDT" duration-ms="3" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setup -->
+        <test-method signature="getPatientRecord_invalidId_returns404()[pri:0, instance:com.wag.qe.api.PrescriptionApiTest@418c5a9c]" started-at="2026-04-17T17:45:25 EDT" name="getPatientRecord_invalidId_returns404" finished-at="2026-04-17T17:45:26 EDT" duration-ms="189" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- getPatientRecord_invalidId_returns404 -->
+        <test-method signature="getPatientRecord_validId_returns200WithSchema()[pri:0, instance:com.wag.qe.api.PrescriptionApiTest@418c5a9c]" started-at="2026-04-17T17:45:26 EDT" name="getPatientRecord_validId_returns200WithSchema" finished-at="2026-04-17T17:45:26 EDT" duration-ms="177" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- getPatientRecord_validId_returns200WithSchema -->
+        <test-method signature="prescriptionSubmission_responseTime_underSLA()[pri:0, instance:com.wag.qe.api.PrescriptionApiTest@418c5a9c]" started-at="2026-04-17T17:45:26 EDT" name="prescriptionSubmission_responseTime_underSLA" finished-at="2026-04-17T17:45:26 EDT" duration-ms="112" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- prescriptionSubmission_responseTime_underSLA -->
+        <test-method signature="submitPrescriptionRefill_validPayload_returns201()[pri:0, instance:com.wag.qe.api.PrescriptionApiTest@418c5a9c]" started-at="2026-04-17T17:45:26 EDT" name="submitPrescriptionRefill_validPayload_returns201" finished-at="2026-04-17T17:45:26 EDT" duration-ms="142" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- submitPrescriptionRefill_validPayload_returns201 -->
+      </class> <!-- com.wag.qe.api.PrescriptionApiTest -->
+    </test> <!-- Surefire test -->
+  </suite> <!-- Surefire suite -->
+</testng-results>

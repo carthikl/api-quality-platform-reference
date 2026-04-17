@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.wag.qe</groupId>
+    <artifactId>api-quality-platform-reference</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>Walgreens API Quality Platform — Reference Architecture</name>
+    <description>
+        Multi-layer API testing platform replacing Postman/Newman:
+        REST Assured (functional), Karate (BDD governance), Pact (contract).
+    </description>
+
+    <modules>
+        <module>rest-assured</module>
+        <module>karate</module>
+        <module>pact</module>
+    </modules>
+
+    <properties>
+        <java.version>17</java.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- Layer 1: REST Assured + TestNG -->
+        <rest-assured.version>5.3.2</rest-assured.version>
+        <testng.version>7.9.0</testng.version>
+
+        <!-- Layer 2: Karate + JUnit 5 -->
+        <karate.version>1.4.1</karate.version>
+        <junit5.version>5.10.2</junit5.version>
+
+        <!-- Layer 3: Pact JVM -->
+        <pact.version>4.6.7</pact.version>
+
+        <!-- Shared -->
+        <jackson.version>2.16.1</jackson.version>
+        <slf4j.version>2.0.11</slf4j.version>
+        <logback.version>1.4.14</logback.version>
+
+        <!-- Build plugins -->
+        <maven-surefire.version>3.2.5</maven-surefire.version>
+        <maven-failsafe.version>3.2.5</maven-failsafe.version>
+        <maven-compiler.version>3.12.1</maven-compiler.version>
+
+        <!-- Runtime — overridden per environment in CI -->
+        <api.base.url>https://jsonplaceholder.typicode.com</api.base.url>
+        <pact.broker.url></pact.broker.url>
+        <pact.broker.token></pact.broker.token>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- ── REST Assured ─────────────────────────────────── -->
+            <dependency>
+                <groupId>io.rest-assured</groupId>
+                <artifactId>rest-assured</artifactId>
+                <version>${rest-assured.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.rest-assured</groupId>
+                <artifactId>json-schema-validator</artifactId>
+                <version>${rest-assured.version}</version>
+            </dependency>
+
+            <!-- ── TestNG ────────────────────────────────────────── -->
+            <dependency>
+                <groupId>org.testng</groupId>
+                <artifactId>testng</artifactId>
+                <version>${testng.version}</version>
+            </dependency>
+
+            <!-- ── Karate ────────────────────────────────────────── -->
+            <dependency>
+                <groupId>io.karatelabs</groupId>
+                <artifactId>karate-junit5</artifactId>
+                <version>${karate.version}</version>
+            </dependency>
+
+            <!-- ── JUnit 5 (Karate runner + Pact) ───────────────── -->
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-api</artifactId>
+                <version>${junit5.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-engine</artifactId>
+                <version>${junit5.version}</version>
+            </dependency>
+
+            <!-- ── Pact JVM ──────────────────────────────────────── -->
+            <dependency>
+                <groupId>au.com.dius.pact.consumer</groupId>
+                <artifactId>junit5</artifactId>
+                <version>${pact.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>au.com.dius.pact.provider</groupId>
+                <artifactId>junit5</artifactId>
+                <version>${pact.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>au.com.dius.pact.provider</groupId>
+                <artifactId>spring</artifactId>
+                <version>${pact.version}</version>
+            </dependency>
+
+            <!-- ── Jackson ───────────────────────────────────────── -->
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+
+            <!-- ── Logging ───────────────────────────────────────── -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${logback.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven-compiler.version}</version>
+                    <configuration>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${maven-surefire.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>${maven-failsafe.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+</project>
