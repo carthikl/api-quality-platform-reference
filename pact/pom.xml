@@ -54,21 +54,52 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
+                <!-- Shared config inherited by both executions below -->
                 <configuration>
                     <useModulePath>false</useModulePath>
                     <systemPropertyVariables>
                         <api.base.url>${api.base.url}</api.base.url>
-                        <!-- Pact broker coordinates — injected from CI secrets -->
                         <pact.broker.url>${pact.broker.url}</pact.broker.url>
                         <pact.broker.token>${pact.broker.token}</pact.broker.token>
-                        <!-- Consumer pacts written to target/pacts by default -->
+                        <!-- Controls where PactConsumerTestExt writes pact JSON files.
+                             PatientProviderTest reads from this same directory via @PactFolder. -->
                         <pact.rootDir>${project.build.directory}/pacts</pact.rootDir>
                     </systemPropertyVariables>
-                    <includes>
-                        <include>**/*ConsumerTest.java</include>
-                        <include>**/*ProviderTest.java</include>
-                    </includes>
                 </configuration>
+                <executions>
+                    <!-- Disable Surefire's default execution — replaced by the ordered pair below.
+                         Ordering matters: provider verification requires the pact file that the
+                         consumer test generates. Running alphabetically would put PatientProviderTest
+                         before PrescriptionConsumerTest and fail on a missing artifact. -->
+                    <execution>
+                        <id>default-test</id>
+                        <phase>none</phase>
+                    </execution>
+
+                    <!-- Execution 1: Consumer generates target/pacts/PrescriptionService-PatientService.json -->
+                    <execution>
+                        <id>consumer-contract-generation</id>
+                        <phase>test</phase>
+                        <goals><goal>test</goal></goals>
+                        <configuration>
+                            <includes>
+                                <include>**/*ConsumerTest.java</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+
+                    <!-- Execution 2: Provider reads the pact file and verifies against the real API -->
+                    <execution>
+                        <id>provider-contract-verification</id>
+                        <phase>test</phase>
+                        <goals><goal>test</goal></goals>
+                        <configuration>
+                            <includes>
+                                <include>**/*ProviderTest.java</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

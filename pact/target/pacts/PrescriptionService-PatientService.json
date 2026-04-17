@@ -1,0 +1,89 @@
+{
+  "consumer": {
+    "name": "PrescriptionService"
+  },
+  "interactions": [
+    {
+      "description": "a request to retrieve patient record for ID 1",
+      "providerStates": [
+        {
+          "name": "patient with ID 1 exists"
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/users/1"
+      },
+      "response": {
+        "body": {
+          "email": "Sincere@april.biz",
+          "id": 1,
+          "name": "Leanne Graham",
+          "phone": "1-770-736-8031 x56442"
+        },
+        "headers": {
+          "Content-Type": "application/json; charset=UTF-8"
+        },
+        "matchingRules": {
+          "body": {
+            "$.email": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.id": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "integer"
+                }
+              ]
+            },
+            "$.name": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.phone": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            }
+          },
+          "header": {
+            "Content-Type": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "application/json(;\\s?charset=[\\w\\-]+)?"
+                }
+              ]
+            }
+          }
+        },
+        "status": 200
+      }
+    }
+  ],
+  "metadata": {
+    "pact-jvm": {
+      "version": "4.6.7"
+    },
+    "pactSpecification": {
+      "version": "3.0.0"
+    }
+  },
+  "provider": {
+    "name": "PatientService"
+  }
+}

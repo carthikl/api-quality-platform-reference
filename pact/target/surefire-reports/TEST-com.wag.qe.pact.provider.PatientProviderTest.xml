@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.wag.qe.pact.provider.PatientProviderTest" time="1.771" tests="1" errors="0" skipped="0" failures="0">
+  <properties>
+    <property name="java.specification.version" value="25"/>
+    <property name="sun.jnu.encoding" value="UTF-8"/>
+    <property name="java.class.path" value="/Users/owner/api-quality-platform-reference/pact/target/test-classes:/Users/owner/api-quality-platform-reference/pact/target/classes:/Users/owner/.m2/repository/au/com/dius/pact/consumer/junit5/4.6.7/junit5-4.6.7.jar:/Users/owner/.m2/repository/au/com/dius/pact/consumer/4.6.7/consumer-4.6.7.jar:/Users/owner/.m2/repository/au/com/dius/pact/core/matchers/4.6.7/matchers-4.6.7.jar:/Users/owner/.m2/repository/io/github/java-diff-utils/java-diff-utils/4.12/java-diff-utils-4.12.jar:/Users/owner/.m2/repository/org/atteo/evo-inflector/1.3/evo-inflector-1.3.jar:/Users/owner/.m2/repository/com/github/zafarkhaja/java-semver/0.9.0/java-semver-0.9.0.jar:/Users/owner/.m2/repository/org/apache/httpcomponents/client5/httpclient5/5.2.1/httpclient5-5.2.1.jar:/Users/owner/.m2/repository/org/apache/httpcomponents/core5/httpcore5/5.2/httpcore5-5.2.jar:/Users/owner/.m2/repository/org/apache/httpcomponents/core5/httpcore5-h2/5.2/httpcore5-h2-5.2.jar:/Users/owner/.m2/repository/org/json/json/20230618/json-20230618.jar:/Users/owner/.m2/repository/org/apache/httpcomponents/client5/httpclient5-fluent/5.2.1/httpclient5-fluent-5.2.1.jar:/Users/owner/.m2/repository/com/googlecode/java-diff-utils/diffutils/1.3.0/diffutils-1.3.0.jar:/Users/owner/.m2/repository/dk/brics/automaton/automaton/1.11-8/automaton-1.11-8.jar:/Users/owner/.m2/repository/io/netty/netty-handler/4.1.104.Final/netty-handler-4.1.104.Final.jar:/Users/owner/.m2/repository/io/netty/netty-common/4.1.104.Final/netty-common-4.1.104.Final.jar:/Users/owner/.m2/repository/io/netty/netty-resolver/4.1.104.Final/netty-resolver-4.1.104.Final.jar:/Users/owner/.m2/repository/io/netty/netty-buffer/4.1.104.Final/netty-buffer-4.1.104.Final.jar:/Users/owner/.m2/repository/io/netty/netty-transport/4.1.104.Final/netty-transport-4.1.104.Final.jar:/Users/owner/.m2/repository/io/netty/netty-transport-native-unix-common/4.1.104.Final/netty-transport-native-unix-common-4.1.104.Final.jar:/Users/owner/.m2/repository/io/netty/netty-codec/4.1.104.Final/netty-codec-4.1.104.Final.jar:/Users/owner/.m2/repository/io/ktor/ktor-server-netty/2.3.2/ktor-server-netty-2.3.2.jar:/Users/owner/.m2/repository/org/jetbrains/kotlinx/kotlinx-coroutines-core/1.7.1/kotlinx-coroutines-core-1.7.1.jar:/Users/owner/.m2/repository/io/ktor/ktor-network-tls-certificates/2.3.2/ktor-network-tls-certificates-2.3.2.jar:/Users/owner/.m2/repository/io/ktor/ktor-server-call-logging/2.3.2/ktor-server-call-logging-2.3.2.jar:/Users/owner/.m2/repository/io/ktor/ktor-server-core/2.3.2/ktor-server-core-2.3.2.jar:/Users/owner/.m2/repository/org/jetbrains/kotlinx/atomicfu/0.19.0/atomicfu-0.19.0.jar:/Users/owner/.m2/repository/org/jetbrains/kotlinx/atomicfu-jvm/0.19.0/atomicfu-jvm-0.19.0.jar:/Users/owner/.m2/repository/io/ktor/ktor-utils/2.3.2/ktor-utils-2.3.2.jar:/Users/owner/.m2/repository/io/ktor/ktor-io/2.3.2/ktor-io-2.3.2.jar:/Users/owner/.m2/repository/io/ktor/ktor-http/2.3.2/ktor-http-2.3.2.jar:/Users/owner/.m2/repository/io/ktor/ktor-serialization/2.3.2/ktor-serialization-2.3.2.jar:/Users/owner/.m2/repository/io/ktor/ktor-websockets/2.3.2/ktor-websockets-2.3.2.jar:/Users/owner/.m2/repository/io/ktor/ktor-events/2.3.2/ktor-events-2.3.2.jar:/Users/owner/.m2/repository/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar:/Users/owner/.m2/repository/com/github/mifmif/generex/1.0.2/generex-1.0.2.jar:/Users/owner/.m2/repository/commons-io/commons-io/2.11.0/commons-io-2.11.0.jar:/Users/owner/.m2/repository/org/apache/commons/commons-text/1.10.0/commons-text-1.10.0.jar:/Users/owner/.m2/repository/org/apache/tika/tika-core/2.7.0/tika-core-2.7.0.jar:/Users/owner/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib/1.8.22/kotlin-stdlib-1.8.22.jar:/Users/owner/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib-common/1.8.22/kotlin-stdlib-common-1.8.22.jar:/Users/owner/.m2/repository/org/jetbrains/annotations/13.0/annotations-13.0.jar:/Users/owner/.m2/repository/org/jetbrains/kotlin/kotlin-reflect/1.8.22/kotlin-reflect-1.8.22.jar:/Users/owner/.m2/repository/org/slf4j/slf4j-api/2.0.11/slf4j-api-2.0.11.jar:/Users/owner/.m2/repository/au/com/dius/pact/provider/junit5/4.6.7/junit5-4.6.7.jar:/Users/owner/.m2/repository/au/com/dius/pact/provider/4.6.7/provider-4.6.7.jar:/Users/owner/.m2/repository/io/github/classgraph/classgraph/4.8.129/classgraph-4.8.129.jar:/Users/owner/.m2/repository/org/apache/commons/commons-collections4/4.4/commons-collections4-4.4.jar:/Users/owner/.m2/repository/com/github/ajalt/mordant/1.2.1/mordant-1.2.1.jar:/Users/owner/.m2/repository/com/github/ajalt/colormath/1.2.0/colormath-1.2.0.jar:/Users/owner/.m2/repository/com/vladsch/flexmark/flexmark/0.62.2/flexmark-0.62.2.jar:/Users/owner/.m2/repository/com/vladsch/flexmark/flexmark-util-ast/0.62.2/flexmark-util-ast-0.62.2.jar:/Users/owner/.m2/repository/com/vladsch/flexmark/flexmark-util-builder/0.62.2/flexmark-util-builder-0.62.2.jar:/Users/owner/.m2/repository/com/vladsch/flexmark/flexmark-util-collection/0.62.2/flexmark-util-collection-0.62.2.jar:/Users/owner/.m2/repository/com/vladsch/flexmark/flexmark-util-data/0.62.2/flexmark-util-data-0.62.2.jar:/Users/owner/.m2/repository/com/vladsch/flexmark/flexmark-util-dependency/0.62.2/flexmark-util-dependency-0.62.2.jar:/Users/owner/.m2/repository/com/vladsch/flexmark/flexmark-util-format/0.62.2/flexmark-util-format-0.62.2.jar:/Users/owner/.m2/repository/com/vladsch/flexmark/flexmark-util-html/0.62.2/flexmark-util-html-0.62.2.jar:/Users/owner/.m2/repository/com/vladsch/flexmark/flexmark-util-misc/0.62.2/flexmark-util-misc-0.62.2.jar:/Users/owner/.m2/repository/com/vladsch/flexmark/flexmark-util-sequence/0.62.2/flexmark-util-sequence-0.62.2.jar:/Users/owner/.m2/repository/com/vladsch/flexmark/flexmark-util-visitor/0.62.2/flexmark-util-visitor-0.62.2.jar:/Users/owner/.m2/repository/com/vladsch/flexmark/flexmark-ext-tables/0.62.2/flexmark-ext-tables-0.62.2.jar:/Users/owner/.m2/repository/com/vladsch/flexmark/flexmark-util/0.62.2/flexmark-util-0.62.2.jar:/Users/owner/.m2/repository/com/vladsch/flexmark/flexmark-util-options/0.62.2/flexmark-util-options-0.62.2.jar:/Users/owner/.m2/repository/org/apache/groovy/groovy/4.0.11/groovy-4.0.11.jar:/Users/owner/.m2/repository/au/com/dius/pact/core/support/4.6.7/support-4.6.7.jar:/Users/owner/.m2/repository/io/github/microutils/kotlin-logging-jvm/3.0.4/kotlin-logging-jvm-3.0.4.jar:/Users/owner/.m2/repository/io/github/oshai/kotlin-logging-jvm/5.0.0/kotlin-logging-jvm-5.0.0.jar:/Users/owner/.m2/repository/commons-codec/commons-codec/1.15/commons-codec-1.15.jar:/Users/owner/.m2/repository/au/com/dius/pact/core/pactbroker/4.6.7/pactbroker-4.6.7.jar:/Users/owner/.m2/repository/com/google/guava/guava/31.1-jre/guava-31.1-jre.jar:/Users/owner/.m2/repository/com/google/guava/failureaccess/1.0.1/failureaccess-1.0.1.jar:/Users/owner/.m2/repository/com/google/guava/listenablefuture/9999.0-empty-to-avoid-conflict-with-guava/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar:/Users/owner/.m2/repository/com/google/code/findbugs/jsr305/3.0.2/jsr305-3.0.2.jar:/Users/owner/.m2/repository/org/checkerframework/checker-qual/3.12.0/checker-qual-3.12.0.jar:/Users/owner/.m2/repository/com/google/errorprone/error_prone_annotations/2.11.0/error_prone_annotations-2.11.0.jar:/Users/owner/.m2/repository/com/google/j2objc/j2objc-annotations/1.3/j2objc-annotations-1.3.jar:/Users/owner/.m2/repository/au/com/dius/pact/core/model/4.6.7/model-4.6.7.jar:/Users/owner/.m2/repository/javax/mail/mail/1.5.0-b01/mail-1.5.0-b01.jar:/Users/owner/.m2/repository/javax/activation/activation/1.1/activation-1.1.jar:/Users/owner/.m2/repository/io/ktor/ktor-http-jvm/2.3.2/ktor-http-jvm-2.3.2.jar:/Users/owner/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib-jdk7/1.8.22/kotlin-stdlib-jdk7-1.8.22.jar:/Users/owner/.m2/repository/org/jetbrains/kotlinx/kotlinx-coroutines-jdk8/1.7.1/kotlinx-coroutines-jdk8-1.7.1.jar:/Users/owner/.m2/repository/org/jetbrains/kotlinx/kotlinx-coroutines-core-jvm/1.7.1/kotlinx-coroutines-core-jvm-1.7.1.jar:/Users/owner/.m2/repository/io/ktor/ktor-utils-jvm/2.3.2/ktor-utils-jvm-2.3.2.jar:/Users/owner/.m2/repository/io/ktor/ktor-io-jvm/2.3.2/ktor-io-jvm-2.3.2.jar:/Users/owner/.m2/repository/commons-beanutils/commons-beanutils/1.9.4/commons-beanutils-1.9.4.jar:/Users/owner/.m2/repository/commons-logging/commons-logging/1.2/commons-logging-1.2.jar:/Users/owner/.m2/repository/commons-collections/commons-collections/3.2.2/commons-collections-3.2.2.jar:/Users/owner/.m2/repository/io/pact/plugin/driver/core/0.4.1/core-0.4.1.jar:/Users/owner/.m2/repository/com/vdurmont/semver4j/3.1.0/semver4j-3.1.0.jar:/Users/owner/.m2/repository/io/grpc/grpc-protobuf/1.56.1/grpc-protobuf-1.56.1.jar:/Users/owner/.m2/repository/io/grpc/grpc-api/1.56.1/grpc-api-1.56.1.jar:/Users/owner/.m2/repository/io/grpc/grpc-context/1.56.1/grpc-context-1.56.1.jar:/Users/owner/.m2/repository/com/google/protobuf/protobuf-java/3.22.3/protobuf-java-3.22.3.jar:/Users/owner/.m2/repository/com/google/api/grpc/proto-google-common-protos/2.17.0/proto-google-common-protos-2.17.0.jar:/Users/owner/.m2/repository/io/grpc/grpc-protobuf-lite/1.56.1/grpc-protobuf-lite-1.56.1.jar:/Users/owner/.m2/repository/io/grpc/grpc-stub/1.56.1/grpc-stub-1.56.1.jar:/Users/owner/.m2/repository/io/grpc/grpc-netty/1.56.1/grpc-netty-1.56.1.jar:/Users/owner/.m2/repository/io/grpc/grpc-core/1.56.1/grpc-core-1.56.1.jar:/Users/owner/.m2/repository/com/google/android/annotations/4.1.1.4/annotations-4.1.1.4.jar:/Users/owner/.m2/repository/org/codehaus/mojo/animal-sniffer-annotations/1.23/animal-sniffer-annotations-1.23.jar:/Users/owner/.m2/repository/io/netty/netty-codec-http2/4.1.87.Final/netty-codec-http2-4.1.87.Final.jar:/Users/owner/.m2/repository/io/netty/netty-codec-http/4.1.87.Final/netty-codec-http-4.1.87.Final.jar:/Users/owner/.m2/repository/io/netty/netty-handler-proxy/4.1.87.Final/netty-handler-proxy-4.1.87.Final.jar:/Users/owner/.m2/repository/io/netty/netty-codec-socks/4.1.87.Final/netty-codec-socks-4.1.87.Final.jar:/Users/owner/.m2/repository/io/perfmark/perfmark-api/0.26.0/perfmark-api-0.26.0.jar:/Users/owner/.m2/repository/javax/annotation/javax.annotation-api/1.3.2/javax.annotation-api-1.3.2.jar:/Users/owner/.m2/repository/javax/json/javax.json-api/1.1.4/javax.json-api-1.1.4.jar:/Users/owner/.m2/repository/org/glassfish/javax.json/1.1.4/javax.json-1.1.4.jar:/Users/owner/.m2/repository/com/moandjiezana/toml/toml4j/0.7.2/toml4j-0.7.2.jar:/Users/owner/.m2/repository/com/google/code/gson/gson/2.8.1/gson-2.8.1.jar:/Users/owner/.m2/repository/org/rauschig/jarchivelib/1.2.0/jarchivelib-1.2.0.jar:/Users/owner/.m2/repository/org/apache/commons/commons-compress/1.21/commons-compress-1.21.jar:/Users/owner/.m2/repository/com/michael-bull/kotlin-result/kotlin-result-jvm/1.1.14/kotlin-result-jvm-1.1.14.jar:/Users/owner/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib-jdk8/1.6.10/kotlin-stdlib-jdk8-1.6.10.jar:/Users/owner/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.2/junit-jupiter-api-5.10.2.jar:/Users/owner/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/owner/.m2/repository/org/junit/platform/junit-platform-commons/1.10.2/junit-platform-commons-1.10.2.jar:/Users/owner/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/owner/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.2/junit-jupiter-engine-5.10.2.jar:/Users/owner/.m2/repository/org/junit/platform/junit-platform-engine/1.10.2/junit-platform-engine-1.10.2.jar:/Users/owner/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.16.1/jackson-databind-2.16.1.jar:/Users/owner/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.16.1/jackson-annotations-2.16.1.jar:/Users/owner/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.16.1/jackson-core-2.16.1.jar:/Users/owner/.m2/repository/ch/qos/logback/logback-classic/1.4.14/logback-classic-1.4.14.jar:/Users/owner/.m2/repository/ch/qos/logback/logback-core/1.4.14/logback-core-1.4.14.jar:"/>
+    <property name="java.vm.vendor" value="Homebrew"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="java.vendor.url" value="https://github.com/Homebrew/homebrew-core/issues"/>
+    <property name="user.timezone" value="America/New_York"/>
+    <property name="os.name" value="Mac OS X"/>
+    <property name="java.vm.specification.version" value="25"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="user.country" value="US"/>
+    <property name="sun.boot.library.path" value="/usr/local/Cellar/openjdk/25.0.2/libexec/openjdk.jdk/Contents/Home/lib"/>
+    <property name="sun.java.command" value="/Users/owner/api-quality-platform-reference/pact/target/surefire/surefirebooter-20260417183929753_8.jar /Users/owner/api-quality-platform-reference/pact/target/surefire 2026-04-17T18-39-29_666-jvmRun1 surefire-20260417183929753_6tmp surefire_1-20260417183929753_7tmp"/>
+    <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="surefire.test.class.path" value="/Users/owner/api-quality-platform-reference/pact/target/test-classes:/Users/owner/api-quality-platform-reference/pact/target/classes:/Users/owner/.m2/repository/au/com/dius/pact/consumer/junit5/4.6.7/junit5-4.6.7.jar:/Users/owner/.m2/repository/au/com/dius/pact/consumer/4.6.7/consumer-4.6.7.jar:/Users/owner/.m2/repository/au/com/dius/pact/core/matchers/4.6.7/matchers-4.6.7.jar:/Users/owner/.m2/repository/io/github/java-diff-utils/java-diff-utils/4.12/java-diff-utils-4.12.jar:/Users/owner/.m2/repository/org/atteo/evo-inflector/1.3/evo-inflector-1.3.jar:/Users/owner/.m2/repository/com/github/zafarkhaja/java-semver/0.9.0/java-semver-0.9.0.jar:/Users/owner/.m2/repository/org/apache/httpcomponents/client5/httpclient5/5.2.1/httpclient5-5.2.1.jar:/Users/owner/.m2/repository/org/apache/httpcomponents/core5/httpcore5/5.2/httpcore5-5.2.jar:/Users/owner/.m2/repository/org/apache/httpcomponents/core5/httpcore5-h2/5.2/httpcore5-h2-5.2.jar:/Users/owner/.m2/repository/org/json/json/20230618/json-20230618.jar:/Users/owner/.m2/repository/org/apache/httpcomponents/client5/httpclient5-fluent/5.2.1/httpclient5-fluent-5.2.1.jar:/Users/owner/.m2/repository/com/googlecode/java-diff-utils/diffutils/1.3.0/diffutils-1.3.0.jar:/Users/owner/.m2/repository/dk/brics/automaton/automaton/1.11-8/automaton-1.11-8.jar:/Users/owner/.m2/repository/io/netty/netty-handler/4.1.104.Final/netty-handler-4.1.104.Final.jar:/Users/owner/.m2/repository/io/netty/netty-common/4.1.104.Final/netty-common-4.1.104.Final.jar:/Users/owner/.m2/repository/io/netty/netty-resolver/4.1.104.Final/netty-resolver-4.1.104.Final.jar:/Users/owner/.m2/repository/io/netty/netty-buffer/4.1.104.Final/netty-buffer-4.1.104.Final.jar:/Users/owner/.m2/repository/io/netty/netty-transport/4.1.104.Final/netty-transport-4.1.104.Final.jar:/Users/owner/.m2/repository/io/netty/netty-transport-native-unix-common/4.1.104.Final/netty-transport-native-unix-common-4.1.104.Final.jar:/Users/owner/.m2/repository/io/netty/netty-codec/4.1.104.Final/netty-codec-4.1.104.Final.jar:/Users/owner/.m2/repository/io/ktor/ktor-server-netty/2.3.2/ktor-server-netty-2.3.2.jar:/Users/owner/.m2/repository/org/jetbrains/kotlinx/kotlinx-coroutines-core/1.7.1/kotlinx-coroutines-core-1.7.1.jar:/Users/owner/.m2/repository/io/ktor/ktor-network-tls-certificates/2.3.2/ktor-network-tls-certificates-2.3.2.jar:/Users/owner/.m2/repository/io/ktor/ktor-server-call-logging/2.3.2/ktor-server-call-logging-2.3.2.jar:/Users/owner/.m2/repository/io/ktor/ktor-server-core/2.3.2/ktor-server-core-2.3.2.jar:/Users/owner/.m2/repository/org/jetbrains/kotlinx/atomicfu/0.19.0/atomicfu-0.19.0.jar:/Users/owner/.m2/repository/org/jetbrains/kotlinx/atomicfu-jvm/0.19.0/atomicfu-jvm-0.19.0.jar:/Users/owner/.m2/repository/io/ktor/ktor-utils/2.3.2/ktor-utils-2.3.2.jar:/Users/owner/.m2/repository/io/ktor/ktor-io/2.3.2/ktor-io-2.3.2.jar:/Users/owner/.m2/repository/io/ktor/ktor-http/2.3.2/ktor-http-2.3.2.jar:/Users/owner/.m2/repository/io/ktor/ktor-serialization/2.3.2/ktor-serialization-2.3.2.jar:/Users/owner/.m2/repository/io/ktor/ktor-websockets/2.3.2/ktor-websockets-2.3.2.jar:/Users/owner/.m2/repository/io/ktor/ktor-events/2.3.2/ktor-events-2.3.2.jar:/Users/owner/.m2/repository/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar:/Users/owner/.m2/repository/com/github/mifmif/generex/1.0.2/generex-1.0.2.jar:/Users/owner/.m2/repository/commons-io/commons-io/2.11.0/commons-io-2.11.0.jar:/Users/owner/.m2/repository/org/apache/commons/commons-text/1.10.0/commons-text-1.10.0.jar:/Users/owner/.m2/repository/org/apache/tika/tika-core/2.7.0/tika-core-2.7.0.jar:/Users/owner/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib/1.8.22/kotlin-stdlib-1.8.22.jar:/Users/owner/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib-common/1.8.22/kotlin-stdlib-common-1.8.22.jar:/Users/owner/.m2/repository/org/jetbrains/annotations/13.0/annotations-13.0.jar:/Users/owner/.m2/repository/org/jetbrains/kotlin/kotlin-reflect/1.8.22/kotlin-reflect-1.8.22.jar:/Users/owner/.m2/repository/org/slf4j/slf4j-api/2.0.11/slf4j-api-2.0.11.jar:/Users/owner/.m2/repository/au/com/dius/pact/provider/junit5/4.6.7/junit5-4.6.7.jar:/Users/owner/.m2/repository/au/com/dius/pact/provider/4.6.7/provider-4.6.7.jar:/Users/owner/.m2/repository/io/github/classgraph/classgraph/4.8.129/classgraph-4.8.129.jar:/Users/owner/.m2/repository/org/apache/commons/commons-collections4/4.4/commons-collections4-4.4.jar:/Users/owner/.m2/repository/com/github/ajalt/mordant/1.2.1/mordant-1.2.1.jar:/Users/owner/.m2/repository/com/github/ajalt/colormath/1.2.0/colormath-1.2.0.jar:/Users/owner/.m2/repository/com/vladsch/flexmark/flexmark/0.62.2/flexmark-0.62.2.jar:/Users/owner/.m2/repository/com/vladsch/flexmark/flexmark-util-ast/0.62.2/flexmark-util-ast-0.62.2.jar:/Users/owner/.m2/repository/com/vladsch/flexmark/flexmark-util-builder/0.62.2/flexmark-util-builder-0.62.2.jar:/Users/owner/.m2/repository/com/vladsch/flexmark/flexmark-util-collection/0.62.2/flexmark-util-collection-0.62.2.jar:/Users/owner/.m2/repository/com/vladsch/flexmark/flexmark-util-data/0.62.2/flexmark-util-data-0.62.2.jar:/Users/owner/.m2/repository/com/vladsch/flexmark/flexmark-util-dependency/0.62.2/flexmark-util-dependency-0.62.2.jar:/Users/owner/.m2/repository/com/vladsch/flexmark/flexmark-util-format/0.62.2/flexmark-util-format-0.62.2.jar:/Users/owner/.m2/repository/com/vladsch/flexmark/flexmark-util-html/0.62.2/flexmark-util-html-0.62.2.jar:/Users/owner/.m2/repository/com/vladsch/flexmark/flexmark-util-misc/0.62.2/flexmark-util-misc-0.62.2.jar:/Users/owner/.m2/repository/com/vladsch/flexmark/flexmark-util-sequence/0.62.2/flexmark-util-sequence-0.62.2.jar:/Users/owner/.m2/repository/com/vladsch/flexmark/flexmark-util-visitor/0.62.2/flexmark-util-visitor-0.62.2.jar:/Users/owner/.m2/repository/com/vladsch/flexmark/flexmark-ext-tables/0.62.2/flexmark-ext-tables-0.62.2.jar:/Users/owner/.m2/repository/com/vladsch/flexmark/flexmark-util/0.62.2/flexmark-util-0.62.2.jar:/Users/owner/.m2/repository/com/vladsch/flexmark/flexmark-util-options/0.62.2/flexmark-util-options-0.62.2.jar:/Users/owner/.m2/repository/org/apache/groovy/groovy/4.0.11/groovy-4.0.11.jar:/Users/owner/.m2/repository/au/com/dius/pact/core/support/4.6.7/support-4.6.7.jar:/Users/owner/.m2/repository/io/github/microutils/kotlin-logging-jvm/3.0.4/kotlin-logging-jvm-3.0.4.jar:/Users/owner/.m2/repository/io/github/oshai/kotlin-logging-jvm/5.0.0/kotlin-logging-jvm-5.0.0.jar:/Users/owner/.m2/repository/commons-codec/commons-codec/1.15/commons-codec-1.15.jar:/Users/owner/.m2/repository/au/com/dius/pact/core/pactbroker/4.6.7/pactbroker-4.6.7.jar:/Users/owner/.m2/repository/com/google/guava/guava/31.1-jre/guava-31.1-jre.jar:/Users/owner/.m2/repository/com/google/guava/failureaccess/1.0.1/failureaccess-1.0.1.jar:/Users/owner/.m2/repository/com/google/guava/listenablefuture/9999.0-empty-to-avoid-conflict-with-guava/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar:/Users/owner/.m2/repository/com/google/code/findbugs/jsr305/3.0.2/jsr305-3.0.2.jar:/Users/owner/.m2/repository/org/checkerframework/checker-qual/3.12.0/checker-qual-3.12.0.jar:/Users/owner/.m2/repository/com/google/errorprone/error_prone_annotations/2.11.0/error_prone_annotations-2.11.0.jar:/Users/owner/.m2/repository/com/google/j2objc/j2objc-annotations/1.3/j2objc-annotations-1.3.jar:/Users/owner/.m2/repository/au/com/dius/pact/core/model/4.6.7/model-4.6.7.jar:/Users/owner/.m2/repository/javax/mail/mail/1.5.0-b01/mail-1.5.0-b01.jar:/Users/owner/.m2/repository/javax/activation/activation/1.1/activation-1.1.jar:/Users/owner/.m2/repository/io/ktor/ktor-http-jvm/2.3.2/ktor-http-jvm-2.3.2.jar:/Users/owner/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib-jdk7/1.8.22/kotlin-stdlib-jdk7-1.8.22.jar:/Users/owner/.m2/repository/org/jetbrains/kotlinx/kotlinx-coroutines-jdk8/1.7.1/kotlinx-coroutines-jdk8-1.7.1.jar:/Users/owner/.m2/repository/org/jetbrains/kotlinx/kotlinx-coroutines-core-jvm/1.7.1/kotlinx-coroutines-core-jvm-1.7.1.jar:/Users/owner/.m2/repository/io/ktor/ktor-utils-jvm/2.3.2/ktor-utils-jvm-2.3.2.jar:/Users/owner/.m2/repository/io/ktor/ktor-io-jvm/2.3.2/ktor-io-jvm-2.3.2.jar:/Users/owner/.m2/repository/commons-beanutils/commons-beanutils/1.9.4/commons-beanutils-1.9.4.jar:/Users/owner/.m2/repository/commons-logging/commons-logging/1.2/commons-logging-1.2.jar:/Users/owner/.m2/repository/commons-collections/commons-collections/3.2.2/commons-collections-3.2.2.jar:/Users/owner/.m2/repository/io/pact/plugin/driver/core/0.4.1/core-0.4.1.jar:/Users/owner/.m2/repository/com/vdurmont/semver4j/3.1.0/semver4j-3.1.0.jar:/Users/owner/.m2/repository/io/grpc/grpc-protobuf/1.56.1/grpc-protobuf-1.56.1.jar:/Users/owner/.m2/repository/io/grpc/grpc-api/1.56.1/grpc-api-1.56.1.jar:/Users/owner/.m2/repository/io/grpc/grpc-context/1.56.1/grpc-context-1.56.1.jar:/Users/owner/.m2/repository/com/google/protobuf/protobuf-java/3.22.3/protobuf-java-3.22.3.jar:/Users/owner/.m2/repository/com/google/api/grpc/proto-google-common-protos/2.17.0/proto-google-common-protos-2.17.0.jar:/Users/owner/.m2/repository/io/grpc/grpc-protobuf-lite/1.56.1/grpc-protobuf-lite-1.56.1.jar:/Users/owner/.m2/repository/io/grpc/grpc-stub/1.56.1/grpc-stub-1.56.1.jar:/Users/owner/.m2/repository/io/grpc/grpc-netty/1.56.1/grpc-netty-1.56.1.jar:/Users/owner/.m2/repository/io/grpc/grpc-core/1.56.1/grpc-core-1.56.1.jar:/Users/owner/.m2/repository/com/google/android/annotations/4.1.1.4/annotations-4.1.1.4.jar:/Users/owner/.m2/repository/org/codehaus/mojo/animal-sniffer-annotations/1.23/animal-sniffer-annotations-1.23.jar:/Users/owner/.m2/repository/io/netty/netty-codec-http2/4.1.87.Final/netty-codec-http2-4.1.87.Final.jar:/Users/owner/.m2/repository/io/netty/netty-codec-http/4.1.87.Final/netty-codec-http-4.1.87.Final.jar:/Users/owner/.m2/repository/io/netty/netty-handler-proxy/4.1.87.Final/netty-handler-proxy-4.1.87.Final.jar:/Users/owner/.m2/repository/io/netty/netty-codec-socks/4.1.87.Final/netty-codec-socks-4.1.87.Final.jar:/Users/owner/.m2/repository/io/perfmark/perfmark-api/0.26.0/perfmark-api-0.26.0.jar:/Users/owner/.m2/repository/javax/annotation/javax.annotation-api/1.3.2/javax.annotation-api-1.3.2.jar:/Users/owner/.m2/repository/javax/json/javax.json-api/1.1.4/javax.json-api-1.1.4.jar:/Users/owner/.m2/repository/org/glassfish/javax.json/1.1.4/javax.json-1.1.4.jar:/Users/owner/.m2/repository/com/moandjiezana/toml/toml4j/0.7.2/toml4j-0.7.2.jar:/Users/owner/.m2/repository/com/google/code/gson/gson/2.8.1/gson-2.8.1.jar:/Users/owner/.m2/repository/org/rauschig/jarchivelib/1.2.0/jarchivelib-1.2.0.jar:/Users/owner/.m2/repository/org/apache/commons/commons-compress/1.21/commons-compress-1.21.jar:/Users/owner/.m2/repository/com/michael-bull/kotlin-result/kotlin-result-jvm/1.1.14/kotlin-result-jvm-1.1.14.jar:/Users/owner/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib-jdk8/1.6.10/kotlin-stdlib-jdk8-1.6.10.jar:/Users/owner/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.2/junit-jupiter-api-5.10.2.jar:/Users/owner/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/owner/.m2/repository/org/junit/platform/junit-platform-commons/1.10.2/junit-platform-commons-1.10.2.jar:/Users/owner/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/owner/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.2/junit-jupiter-engine-5.10.2.jar:/Users/owner/.m2/repository/org/junit/platform/junit-platform-engine/1.10.2/junit-platform-engine-1.10.2.jar:/Users/owner/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.16.1/jackson-databind-2.16.1.jar:/Users/owner/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.16.1/jackson-annotations-2.16.1.jar:/Users/owner/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.16.1/jackson-core-2.16.1.jar:/Users/owner/.m2/repository/ch/qos/logback/logback-classic/1.4.14/logback-classic-1.4.14.jar:/Users/owner/.m2/repository/ch/qos/logback/logback-core/1.4.14/logback-core-1.4.14.jar:"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="/Users/owner"/>
+    <property name="user.language" value="en"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2026-01-20"/>
+    <property name="java.home" value="/usr/local/Cellar/openjdk/25.0.2/libexec/openjdk.jdk/Contents/Home"/>
+    <property name="file.separator" value="/"/>
+    <property name="basedir" value="/Users/owner/api-quality-platform-reference/pact"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="api.base.url" value="https://jsonplaceholder.typicode.com"/>
+    <property name="apple.awt.application.name" value="ForkedBooter"/>
+    <property name="surefire.real.class.path" value="/Users/owner/api-quality-platform-reference/pact/target/surefire/surefirebooter-20260417183929753_8.jar"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="java.runtime.version" value="25.0.2"/>
+    <property name="pact.broker.token" value=""/>
+    <property name="user.name" value="owner"/>
+    <property name="stdout.encoding" value="UTF-8"/>
+    <property name="path.separator" value=":"/>
+    <property name="os.version" value="14.6.1"/>
+    <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
+    <property name="pact.broker.url" value=""/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
+    <property name="java.vendor.version" value="Homebrew"/>
+    <property name="localRepository" value="/Users/owner/.m2/repository"/>
+    <property name="java.vendor.url.bug" value="https://github.com/Homebrew/homebrew-core/issues"/>
+    <property name="java.io.tmpdir" value="/var/folders/x3/f84_lbq90wqgryrm9n4r7pjc0000gn/T/"/>
+    <property name="java.version" value="25.0.2"/>
+    <property name="user.dir" value="/Users/owner/api-quality-platform-reference/pact"/>
+    <property name="os.arch" value="x86_64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="native.encoding" value="UTF-8"/>
+    <property name="java.library.path" value="/Users/owner/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:."/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="stderr.encoding" value="UTF-8"/>
+    <property name="java.vendor" value="Homebrew"/>
+    <property name="java.vm.version" value="25.0.2"/>
+    <property name="stdin.encoding" value="UTF-8"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeBig"/>
+    <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="java.class.version" value="69.0"/>
+    <property name="pact.rootDir" value="/Users/owner/api-quality-platform-reference/pact/target/pacts"/>
+  </properties>
+  <testcase name="verifyPatientServiceContracts(PactVerificationContext)[1]" classname="com.wag.qe.pact.provider.PatientProviderTest" time="0.985">
+    <system-out><![CDATA[18:39:33.073 [main] DEBUG au.com.dius.pact.provider.junit5.PactVerificationInvocationContextProvider$Companion -- Verifying pacts for provider 'PatientService' and consumer 'null'
+18:39:33.522 [main] DEBUG au.com.dius.pact.provider.junit5.PactVerificationInvocationContextProvider$Companion -- Pact sources on test class:
+ @au.com.dius.pact.provider.junitsupport.loader.PactSource(au.com.dius.pact.provider.junitsupport.loader.PactFolderLoader.class)
+18:39:33.524 [main] DEBUG au.com.dius.pact.provider.ProviderUtils -- Pact source does not have a constructor with one argument of type Class
+18:39:33.699 [main] DEBUG org.apache.tika.config.TikaConfig -- loading tika config from defaults; no config file specified
+18:39:33.794 [main] DEBUG au.com.dius.pact.provider.junit5.PactVerificationStateChangeExtension$Companion -- beforeEach for interaction 'a request to retrieve patient record for ID 1'
+18:39:33.796 [main] INFO au.com.dius.pact.provider.junit5.PactVerificationStateChangeExtension$Companion -- Invoking state change method 'patient with ID 1 exists':SETUP
+18:39:33.843 [main] DEBUG org.apache.tika.config.TikaConfig -- loading tika config from defaults; no config file specified
+18:39:33.846 [main] DEBUG io.pact.plugins.jvm.core.CatalogueManager -- Core catalogue entries:
+core/content-matcher/xml
+core/content-matcher/json
+core/content-matcher/text
+core/content-matcher/multipart-form-data
+core/content-matcher/form-urlencoded
+core/matcher/v1-equality
+core/matcher/v2-regex
+core/matcher/v2-type
+core/matcher/v2-min-type
+core/matcher/v2-max-type
+core/matcher/v2-minmax-type
+core/matcher/v3-number-type
+core/matcher/v3-integer-type
+core/matcher/v3-decimal-type
+core/matcher/v3-date
+core/matcher/v3-time
+core/matcher/v3-datetime
+core/matcher/v3-includes
+core/matcher/v3-null
+core/matcher/v3-content-type
+core/matcher/v4-equals-ignore-order
+core/matcher/v4-min-equals-ignore-order
+core/matcher/v4-max-equals-ignore-order
+core/matcher/v4-minmax-equals-ignore-order
+core/matcher/v4-array-contains
+core/matcher/v4-notempty
+core/matcher/v4-semver
+core/matcher/v4-each-key
+core/matcher/v4-each-value
+core/transport/http
+core/transport/https
+core/interaction/message
+core/interaction/synchronous-message
+core/content-generator/json
+
+Verifying a pact between PrescriptionService and PatientService
+  [Using File target/pacts/PrescriptionService-PatientService.json]
+  Given patient with ID 1 exists
+  a request to retrieve patient record for ID 1
+18:39:33.994 [main] DEBUG au.com.dius.pact.provider.ProviderClient$Companion -- Making request for provider au.com.dius.pact.provider.ProviderInfo@7aad3f7d[consumers=[],createClient=<null>,host=jsonplaceholder.typicode.com,insecure=false,isDependencyForPactVerify=true,name=provider,packagesToScan=[],path=,port=443,protocol=https,requestFilter=<null>,startProviderTask=<null>,stateChangeRequestFilter=<null>,stateChangeTeardown=false,stateChangeUrl=<null>,stateChangeUsesBody=true,terminateProviderTask=<null>,trustStore=<null>,trustStorePassword=changeit,verificationType=REQUEST_RESPONSE]:
+18:39:33.997 [main] DEBUG au.com.dius.pact.provider.ProviderClient$Companion -- 	method: GET
+	path: /users/1
+	query: {}
+	headers: {}
+	matchers: MatchingRules(rules={path=MatchingRuleCategory(name=path, matchingRules={}), header=MatchingRuleCategory(name=header, matchingRules={}), query=MatchingRuleCategory(name=query, matchingRules={})})
+	generators: Generators(categories={})
+	body: MISSING
+18:39:34.012 [Thread-2] WARN au.com.dius.pact.core.support.Metrics -- 
+            Please note: we are tracking events anonymously to gather important usage statistics like JVM version
+            and operating system. To disable tracking, set the 'pact_do_not_track' system property or environment
+            variable to 'true'.
+            
+18:39:34.231 [Thread-2] DEBUG org.apache.hc.client5.http.impl.classic.InternalHttpClient -- ex-0000000002 preparing request execution
+18:39:34.231 [main] DEBUG org.apache.hc.client5.http.impl.classic.InternalHttpClient -- ex-0000000001 preparing request execution
+18:39:34.238 [Thread-2] DEBUG org.apache.hc.client5.http.impl.classic.ProtocolExec -- ex-0000000002 target auth state: UNCHALLENGED
+18:39:34.238 [main] DEBUG org.apache.hc.client5.http.impl.classic.ProtocolExec -- ex-0000000001 target auth state: UNCHALLENGED
+18:39:34.238 [Thread-2] DEBUG org.apache.hc.client5.http.impl.classic.ProtocolExec -- ex-0000000002 proxy auth state: UNCHALLENGED
+18:39:34.238 [main] DEBUG org.apache.hc.client5.http.impl.classic.ProtocolExec -- ex-0000000001 proxy auth state: UNCHALLENGED
+18:39:34.238 [main] DEBUG org.apache.hc.client5.http.impl.classic.ConnectExec -- ex-0000000001 acquiring connection with route {s}->https://jsonplaceholder.typicode.com:443
+18:39:34.238 [Thread-2] DEBUG org.apache.hc.client5.http.impl.classic.ConnectExec -- ex-0000000002 acquiring connection with route {s}->https://www.google-analytics.com:443
+18:39:34.239 [main] DEBUG org.apache.hc.client5.http.impl.classic.InternalHttpClient -- ex-0000000001 acquiring endpoint (3 MINUTES)
+18:39:34.239 [Thread-2] DEBUG org.apache.hc.client5.http.impl.classic.InternalHttpClient -- ex-0000000002 acquiring endpoint (3 MINUTES)
+18:39:34.249 [main] DEBUG org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager -- ex-0000000001 endpoint lease request (3 MINUTES) [route: {s}->https://jsonplaceholder.typicode.com:443][total available: 0; route allocated: 0 of 5; total allocated: 0 of 25]
+18:39:34.249 [Thread-2] DEBUG org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager -- ex-0000000002 endpoint lease request (3 MINUTES) [route: {s}->https://www.google-analytics.com:443][total available: 0; route allocated: 0 of 100; total allocated: 0 of 200]
+18:39:34.253 [Thread-2] DEBUG org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager -- ex-0000000002 endpoint leased [route: {s}->https://www.google-analytics.com:443][total available: 0; route allocated: 1 of 100; total allocated: 1 of 200]
+18:39:34.253 [main] DEBUG org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager -- ex-0000000001 endpoint leased [route: {s}->https://jsonplaceholder.typicode.com:443][total available: 0; route allocated: 1 of 5; total allocated: 1 of 25]
+18:39:34.261 [Thread-2] DEBUG org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager -- ex-0000000002 acquired ep-0000000001
+18:39:34.261 [main] DEBUG org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager -- ex-0000000001 acquired ep-0000000002
+18:39:34.261 [Thread-2] DEBUG org.apache.hc.client5.http.impl.classic.InternalHttpClient -- ex-0000000002 acquired endpoint ep-0000000001
+18:39:34.261 [main] DEBUG org.apache.hc.client5.http.impl.classic.InternalHttpClient -- ex-0000000001 acquired endpoint ep-0000000002
+18:39:34.261 [Thread-2] DEBUG org.apache.hc.client5.http.impl.classic.ConnectExec -- ex-0000000002 opening connection {s}->https://www.google-analytics.com:443
+18:39:34.261 [main] DEBUG org.apache.hc.client5.http.impl.classic.ConnectExec -- ex-0000000001 opening connection {s}->https://jsonplaceholder.typicode.com:443
+18:39:34.262 [main] DEBUG org.apache.hc.client5.http.impl.classic.InternalHttpClient -- ep-0000000002 connecting endpoint (null)
+18:39:34.262 [Thread-2] DEBUG org.apache.hc.client5.http.impl.classic.InternalHttpClient -- ep-0000000001 connecting endpoint (null)
+18:39:34.264 [main] DEBUG org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager -- ep-0000000002 connecting endpoint to https://jsonplaceholder.typicode.com:443 (3 MINUTES)
+18:39:34.264 [Thread-2] DEBUG org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager -- ep-0000000001 connecting endpoint to https://www.google-analytics.com:443 (3 MINUTES)
+18:39:34.264 [main] DEBUG org.apache.hc.client5.http.impl.io.DefaultHttpClientConnectionOperator -- jsonplaceholder.typicode.com resolving remote address
+18:39:34.264 [Thread-2] DEBUG org.apache.hc.client5.http.impl.io.DefaultHttpClientConnectionOperator -- www.google-analytics.com resolving remote address
+18:39:34.274 [Thread-2] DEBUG org.apache.hc.client5.http.impl.io.DefaultHttpClientConnectionOperator -- www.google-analytics.com resolved to [www.google-analytics.com/64.233.177.138, www.google-analytics.com/64.233.177.113, www.google-analytics.com/64.233.177.100, www.google-analytics.com/64.233.177.139, www.google-analytics.com/64.233.177.101, www.google-analytics.com/64.233.177.102, www.google-analytics.com/2607:f8b0:4002:c0f:0:0:0:71, www.google-analytics.com/2607:f8b0:4002:c0f:0:0:0:8a, www.google-analytics.com/2607:f8b0:4002:c0f:0:0:0:64, www.google-analytics.com/2607:f8b0:4002:c0f:0:0:0:66]
+18:39:34.283 [Thread-2] DEBUG org.apache.hc.client5.http.impl.io.DefaultHttpClientConnectionOperator -- www.google-analytics.com:443 connecting null->www.google-analytics.com/64.233.177.138:443 (3 MINUTES)
+18:39:34.283 [Thread-2] DEBUG org.apache.hc.client5.http.ssl.SSLConnectionSocketFactory -- Connecting socket to www.google-analytics.com/64.233.177.138:443 with timeout 3 MINUTES
+18:39:34.296 [main] DEBUG org.apache.hc.client5.http.impl.io.DefaultHttpClientConnectionOperator -- jsonplaceholder.typicode.com resolved to [jsonplaceholder.typicode.com/172.67.167.151, jsonplaceholder.typicode.com/104.21.59.19, jsonplaceholder.typicode.com/2606:4700:3030:0:0:0:6815:3b13, jsonplaceholder.typicode.com/2606:4700:3031:0:0:0:ac43:a797]
+18:39:34.297 [main] DEBUG org.apache.hc.client5.http.impl.io.DefaultHttpClientConnectionOperator -- jsonplaceholder.typicode.com:443 connecting null->jsonplaceholder.typicode.com/172.67.167.151:443 (3 MINUTES)
+18:39:34.297 [main] DEBUG org.apache.hc.client5.http.ssl.SSLConnectionSocketFactory -- Connecting socket to jsonplaceholder.typicode.com/172.67.167.151:443 with timeout 3 MINUTES
+18:39:34.377 [Thread-2] DEBUG org.apache.hc.client5.http.ssl.SSLConnectionSocketFactory -- Enabled protocols: [TLSv1.3, TLSv1.2]
+18:39:34.377 [Thread-2] DEBUG org.apache.hc.client5.http.ssl.SSLConnectionSocketFactory -- Enabled cipher suites: [TLS_AES_256_GCM_SHA384, TLS_AES_128_GCM_SHA256, TLS_CHACHA20_POLY1305_SHA256, TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256, TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256, TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256, TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256, TLS_DHE_RSA_WITH_AES_256_GCM_SHA384, TLS_DHE_RSA_WITH_CHACHA20_POLY1305_SHA256, TLS_DHE_DSS_WITH_AES_256_GCM_SHA384, TLS_DHE_RSA_WITH_AES_128_GCM_SHA256, TLS_DHE_DSS_WITH_AES_128_GCM_SHA256, TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256, TLS_DHE_RSA_WITH_AES_256_CBC_SHA256, TLS_DHE_DSS_WITH_AES_256_CBC_SHA256, TLS_DHE_RSA_WITH_AES_128_CBC_SHA256, TLS_DHE_DSS_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA, TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA, TLS_DHE_RSA_WITH_AES_256_CBC_SHA, TLS_DHE_DSS_WITH_AES_256_CBC_SHA, TLS_DHE_RSA_WITH_AES_128_CBC_SHA, TLS_DHE_DSS_WITH_AES_128_CBC_SHA, TLS_EMPTY_RENEGOTIATION_INFO_SCSV]
+18:39:34.377 [main] DEBUG org.apache.hc.client5.http.ssl.SSLConnectionSocketFactory -- Enabled protocols: [TLSv1.3, TLSv1.2]
+18:39:34.378 [Thread-2] DEBUG org.apache.hc.client5.http.ssl.SSLConnectionSocketFactory -- Starting handshake (null)
+18:39:34.378 [main] DEBUG org.apache.hc.client5.http.ssl.SSLConnectionSocketFactory -- Enabled cipher suites: [TLS_AES_256_GCM_SHA384, TLS_AES_128_GCM_SHA256, TLS_CHACHA20_POLY1305_SHA256, TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256, TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256, TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256, TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256, TLS_DHE_RSA_WITH_AES_256_GCM_SHA384, TLS_DHE_RSA_WITH_CHACHA20_POLY1305_SHA256, TLS_DHE_DSS_WITH_AES_256_GCM_SHA384, TLS_DHE_RSA_WITH_AES_128_GCM_SHA256, TLS_DHE_DSS_WITH_AES_128_GCM_SHA256, TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256, TLS_DHE_RSA_WITH_AES_256_CBC_SHA256, TLS_DHE_DSS_WITH_AES_256_CBC_SHA256, TLS_DHE_RSA_WITH_AES_128_CBC_SHA256, TLS_DHE_DSS_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA, TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA, TLS_DHE_RSA_WITH_AES_256_CBC_SHA, TLS_DHE_DSS_WITH_AES_256_CBC_SHA, TLS_DHE_RSA_WITH_AES_128_CBC_SHA, TLS_DHE_DSS_WITH_AES_128_CBC_SHA, TLS_EMPTY_RENEGOTIATION_INFO_SCSV]
+18:39:34.378 [main] DEBUG org.apache.hc.client5.http.ssl.SSLConnectionSocketFactory -- Starting handshake (null)
+18:39:34.609 [Thread-2] DEBUG org.apache.hc.client5.http.ssl.SSLConnectionSocketFactory -- Secure session established
+18:39:34.609 [main] DEBUG org.apache.hc.client5.http.ssl.SSLConnectionSocketFactory -- Secure session established
+18:39:34.609 [Thread-2] DEBUG org.apache.hc.client5.http.ssl.SSLConnectionSocketFactory --  negotiated protocol: TLSv1.3
+18:39:34.610 [Thread-2] DEBUG org.apache.hc.client5.http.ssl.SSLConnectionSocketFactory --  negotiated cipher suite: TLS_AES_256_GCM_SHA384
+18:39:34.610 [main] DEBUG org.apache.hc.client5.http.ssl.SSLConnectionSocketFactory --  negotiated protocol: TLSv1.3
+18:39:34.610 [main] DEBUG org.apache.hc.client5.http.ssl.SSLConnectionSocketFactory --  negotiated cipher suite: TLS_AES_256_GCM_SHA384
+18:39:34.610 [main] DEBUG org.apache.hc.client5.http.ssl.SSLConnectionSocketFactory --  peer principal: CN=typicode.com
+18:39:34.610 [Thread-2] DEBUG org.apache.hc.client5.http.ssl.SSLConnectionSocketFactory --  peer principal: CN=*.google-analytics.com
+18:39:34.610 [main] DEBUG org.apache.hc.client5.http.ssl.SSLConnectionSocketFactory --  peer alternative names: [typicode.com, *.typicode.com]
+18:39:34.610 [Thread-2] DEBUG org.apache.hc.client5.http.ssl.SSLConnectionSocketFactory --  peer alternative names: [*.google-analytics.com, region1.app-measurement.com, app-measurement.com, region1.att.app-measurement.com, att.app-measurement.com, region1.analytics.app-measurement.com, analytics.app-measurement.com, region1.app-analytics-services-att.com, app-analytics-services-att.com, region1.app-analytics-services.com, app-analytics-services.com, google-analytics.com, region1.google-analytics.com, ssl.google-analytics.com, www.google-analytics.com, region1.analytics.google.com, googletagmanager.com, www.googletagmanager.com, urchin.com, service.urchin.com, fps.goog, *.fps.goog, googleoptimize.com, www.googleoptimize.com]
+18:39:34.610 [main] DEBUG org.apache.hc.client5.http.ssl.SSLConnectionSocketFactory --  issuer principal: CN=WE1, O=Google Trust Services, C=US
+18:39:34.611 [Thread-2] DEBUG org.apache.hc.client5.http.ssl.SSLConnectionSocketFactory --  issuer principal: CN=WE2, O=Google Trust Services, C=US
+18:39:34.612 [Thread-2] DEBUG org.apache.hc.client5.http.impl.io.DefaultManagedHttpClientConnection -- http-outgoing-0 set socket timeout to 3 MINUTES
+18:39:34.612 [main] DEBUG org.apache.hc.client5.http.impl.io.DefaultManagedHttpClientConnection -- http-outgoing-1 set socket timeout to 3 MINUTES
+18:39:34.613 [Thread-2] DEBUG org.apache.hc.client5.http.impl.io.DefaultHttpClientConnectionOperator -- www.google-analytics.com:443 connected null->www.google-analytics.com/64.233.177.138:443 as http-outgoing-0
+18:39:34.613 [main] DEBUG org.apache.hc.client5.http.impl.io.DefaultHttpClientConnectionOperator -- jsonplaceholder.typicode.com:443 connected null->jsonplaceholder.typicode.com/172.67.167.151:443 as http-outgoing-1
+18:39:34.613 [main] DEBUG org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager -- ep-0000000002 connected http-outgoing-1
+18:39:34.613 [main] DEBUG org.apache.hc.client5.http.impl.classic.InternalHttpClient -- ep-0000000002 endpoint connected
+18:39:34.613 [Thread-2] DEBUG org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager -- ep-0000000001 connected http-outgoing-0
+18:39:34.613 [Thread-2] DEBUG org.apache.hc.client5.http.impl.classic.InternalHttpClient -- ep-0000000001 endpoint connected
+18:39:34.614 [Thread-2] DEBUG org.apache.hc.client5.http.impl.classic.MainClientExec -- ex-0000000002 executing POST /collect HTTP/1.1
+18:39:34.614 [main] DEBUG org.apache.hc.client5.http.impl.classic.MainClientExec -- ex-0000000001 executing GET /users/1 HTTP/1.1
+18:39:34.614 [main] DEBUG org.apache.hc.client5.http.protocol.RequestAddCookies -- ex-0000000001 Cookie spec selected: strict
+18:39:34.614 [Thread-2] DEBUG org.apache.hc.client5.http.protocol.RequestAddCookies -- ex-0000000002 Cookie spec selected: strict
+18:39:34.620 [Thread-2] DEBUG org.apache.hc.client5.http.impl.classic.InternalHttpClient -- ep-0000000001 start execution ex-0000000002
+18:39:34.620 [Thread-2] DEBUG org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager -- ep-0000000001 executing exchange ex-0000000002 over http-outgoing-0
+18:39:34.620 [main] DEBUG org.apache.hc.client5.http.impl.classic.InternalHttpClient -- ep-0000000002 start execution ex-0000000001
+18:39:34.621 [main] DEBUG org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager -- ep-0000000002 executing exchange ex-0000000001 over http-outgoing-1
+18:39:34.621 [main] DEBUG org.apache.hc.client5.http.headers -- http-outgoing-1 >> GET /users/1 HTTP/1.1
+18:39:34.621 [main] DEBUG org.apache.hc.client5.http.headers -- http-outgoing-1 >> Accept-Encoding: gzip, x-gzip, deflate
+18:39:34.621 [main] DEBUG org.apache.hc.client5.http.headers -- http-outgoing-1 >> Host: jsonplaceholder.typicode.com:443
+18:39:34.621 [main] DEBUG org.apache.hc.client5.http.headers -- http-outgoing-1 >> Connection: keep-alive
+18:39:34.621 [main] DEBUG org.apache.hc.client5.http.headers -- http-outgoing-1 >> User-Agent: Apache-HttpClient/5.2.1 (Java/25.0.2)
+18:39:34.621 [Thread-2] DEBUG org.apache.hc.client5.http.headers -- http-outgoing-0 >> POST /collect HTTP/1.1
+18:39:34.622 [Thread-2] DEBUG org.apache.hc.client5.http.headers -- http-outgoing-0 >> Accept-Encoding: gzip, x-gzip, deflate
+18:39:34.622 [Thread-2] DEBUG org.apache.hc.client5.http.headers -- http-outgoing-0 >> Content-Length: 226
+18:39:34.622 [Thread-2] DEBUG org.apache.hc.client5.http.headers -- http-outgoing-0 >> Content-Type: application/x-www-form-urlencoded; charset=ISO-8859-1
+18:39:34.622 [Thread-2] DEBUG org.apache.hc.client5.http.headers -- http-outgoing-0 >> Host: www.google-analytics.com
+18:39:34.622 [Thread-2] DEBUG org.apache.hc.client5.http.headers -- http-outgoing-0 >> Connection: keep-alive
+18:39:34.622 [main] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-1 >> "GET /users/1 HTTP/1.1[\r][\n]"
+18:39:34.622 [main] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-1 >> "Accept-Encoding: gzip, x-gzip, deflate[\r][\n]"
+18:39:34.622 [main] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-1 >> "Host: jsonplaceholder.typicode.com:443[\r][\n]"
+18:39:34.622 [Thread-2] DEBUG org.apache.hc.client5.http.headers -- http-outgoing-0 >> User-Agent: Apache-HttpClient/5.2.1 (Java/25.0.2)
+18:39:34.622 [main] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-1 >> "Connection: keep-alive[\r][\n]"
+18:39:34.622 [main] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-1 >> "User-Agent: Apache-HttpClient/5.2.1 (Java/25.0.2)[\r][\n]"
+18:39:34.623 [main] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-1 >> "[\r][\n]"
+18:39:34.623 [Thread-2] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-0 >> "POST /collect HTTP/1.1[\r][\n]"
+18:39:34.623 [Thread-2] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-0 >> "Accept-Encoding: gzip, x-gzip, deflate[\r][\n]"
+18:39:34.623 [Thread-2] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-0 >> "Content-Length: 226[\r][\n]"
+18:39:34.623 [Thread-2] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-0 >> "Content-Type: application/x-www-form-urlencoded; charset=ISO-8859-1[\r][\n]"
+18:39:34.623 [Thread-2] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-0 >> "Host: www.google-analytics.com[\r][\n]"
+18:39:34.623 [Thread-2] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-0 >> "Connection: keep-alive[\r][\n]"
+18:39:34.623 [Thread-2] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-0 >> "User-Agent: Apache-HttpClient/5.2.1 (Java/25.0.2)[\r][\n]"
+18:39:34.624 [Thread-2] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-0 >> "[\r][\n]"
+18:39:34.624 [Thread-2] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-0 >> "v=1&t=event&tid=UA-117778936-1&cid=1bdca3c7c16de31a227335bd83790e29&an=pact-jvm&aid=pact-jvm&av=4.6.7&aip=true&ds=client&cd2=unknown&cd3=mac+os+x-x86_64&cd6=junit5&cd7=25.0.2&el=Pacts+verified&ec=ProviderTest&ea=Completed&ev=1"
+18:39:34.645 [Thread-2] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-0 << "HTTP/1.1 200 OK[\r][\n]"
+18:39:34.645 [Thread-2] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-0 << "Access-Control-Allow-Origin: *[\r][\n]"
+18:39:34.645 [Thread-2] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-0 << "Date: Fri, 17 Apr 2026 22:39:34 GMT[\r][\n]"
+18:39:34.645 [Thread-2] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-0 << "Pragma: no-cache[\r][\n]"
+18:39:34.645 [Thread-2] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-0 << "Expires: Fri, 01 Jan 1990 00:00:00 GMT[\r][\n]"
+18:39:34.646 [Thread-2] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-0 << "Cache-Control: no-cache, no-store, must-revalidate[\r][\n]"
+18:39:34.646 [Thread-2] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-0 << "Last-Modified: Sun, 17 May 1998 03:00:00 GMT[\r][\n]"
+18:39:34.646 [Thread-2] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-0 << "X-Content-Type-Options: nosniff[\r][\n]"
+18:39:34.646 [Thread-2] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-0 << "Content-Type: image/gif[\r][\n]"
+18:39:34.646 [Thread-2] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-0 << "Cross-Origin-Resource-Policy: cross-origin[\r][\n]"
+18:39:34.646 [Thread-2] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-0 << "Content-Security-Policy-Report-Only: script-src 'none'; form-action 'none'; frame-src 'none'; report-uri https://csp.withgoogle.com/csp/scaffolding/ascnsrsgac:195:0[\r][\n]"
+18:39:34.646 [Thread-2] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-0 << "Cross-Origin-Opener-Policy-Report-Only: same-origin; report-to=ascnsrsgac:195:0[\r][\n]"
+18:39:34.646 [Thread-2] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-0 << "Report-To: {"group":"ascnsrsgac:195:0","max_age":2592000,"endpoints":[{"url":"https://csp.withgoogle.com/csp/report-to/scaffolding/ascnsrsgac:195:0"}],}[\r][\n]"
+18:39:34.646 [Thread-2] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-0 << "Server: Golfe2[\r][\n]"
+18:39:34.646 [Thread-2] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-0 << "Content-Length: 35[\r][\n]"
+18:39:34.646 [Thread-2] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-0 << "Alt-Svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000[\r][\n]"
+18:39:34.646 [Thread-2] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-0 << "[\r][\n]"
+18:39:34.646 [Thread-2] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-0 << "GIF89a[0x1][0x0][0x1][0x0][0xffffff80][0xffffffff][0x0][0xffffffff][0xffffffff][0xffffffff][0x0][0x0][0x0],[0x0][0x0][0x0][0x0][0x1][0x0][0x1][0x0][0x0][0x2][0x2]D[0x1][0x0];"
+18:39:34.648 [Thread-2] DEBUG org.apache.hc.client5.http.headers -- http-outgoing-0 << HTTP/1.1 200 OK
+18:39:34.649 [Thread-2] DEBUG org.apache.hc.client5.http.headers -- http-outgoing-0 << Access-Control-Allow-Origin: *
+18:39:34.649 [Thread-2] DEBUG org.apache.hc.client5.http.headers -- http-outgoing-0 << Date: Fri, 17 Apr 2026 22:39:34 GMT
+18:39:34.649 [Thread-2] DEBUG org.apache.hc.client5.http.headers -- http-outgoing-0 << Pragma: no-cache
+18:39:34.649 [Thread-2] DEBUG org.apache.hc.client5.http.headers -- http-outgoing-0 << Expires: Fri, 01 Jan 1990 00:00:00 GMT
+18:39:34.649 [Thread-2] DEBUG org.apache.hc.client5.http.headers -- http-outgoing-0 << Cache-Control: no-cache, no-store, must-revalidate
+18:39:34.649 [Thread-2] DEBUG org.apache.hc.client5.http.headers -- http-outgoing-0 << Last-Modified: Sun, 17 May 1998 03:00:00 GMT
+18:39:34.649 [Thread-2] DEBUG org.apache.hc.client5.http.headers -- http-outgoing-0 << X-Content-Type-Options: nosniff
+18:39:34.649 [Thread-2] DEBUG org.apache.hc.client5.http.headers -- http-outgoing-0 << Content-Type: image/gif
+18:39:34.649 [Thread-2] DEBUG org.apache.hc.client5.http.headers -- http-outgoing-0 << Cross-Origin-Resource-Policy: cross-origin
+18:39:34.649 [Thread-2] DEBUG org.apache.hc.client5.http.headers -- http-outgoing-0 << Content-Security-Policy-Report-Only: script-src 'none'; form-action 'none'; frame-src 'none'; report-uri https://csp.withgoogle.com/csp/scaffolding/ascnsrsgac:195:0
+18:39:34.649 [Thread-2] DEBUG org.apache.hc.client5.http.headers -- http-outgoing-0 << Cross-Origin-Opener-Policy-Report-Only: same-origin; report-to=ascnsrsgac:195:0
+18:39:34.649 [Thread-2] DEBUG org.apache.hc.client5.http.headers -- http-outgoing-0 << Report-To: {"group":"ascnsrsgac:195:0","max_age":2592000,"endpoints":[{"url":"https://csp.withgoogle.com/csp/report-to/scaffolding/ascnsrsgac:195:0"}],}
+18:39:34.649 [Thread-2] DEBUG org.apache.hc.client5.http.headers -- http-outgoing-0 << Server: Golfe2
+18:39:34.649 [Thread-2] DEBUG org.apache.hc.client5.http.headers -- http-outgoing-0 << Content-Length: 35
+18:39:34.649 [Thread-2] DEBUG org.apache.hc.client5.http.headers -- http-outgoing-0 << Alt-Svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+18:39:34.651 [main] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-1 << "HTTP/1.1 200 OK[\r][\n]"
+18:39:34.652 [Thread-2] DEBUG org.apache.hc.client5.http.impl.classic.MainClientExec -- ex-0000000002 connection can be kept alive for 3 MINUTES
+18:39:34.652 [main] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-1 << "Date: Fri, 17 Apr 2026 22:39:34 GMT[\r][\n]"
+18:39:34.652 [main] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-1 << "Content-Type: application/json; charset=utf-8[\r][\n]"
+18:39:34.652 [main] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-1 << "Transfer-Encoding: chunked[\r][\n]"
+18:39:34.652 [main] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-1 << "Connection: keep-alive[\r][\n]"
+18:39:34.652 [main] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-1 << "access-control-allow-credentials: true[\r][\n]"
+18:39:34.652 [main] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-1 << "Cache-Control: max-age=43200[\r][\n]"
+18:39:34.652 [main] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-1 << "etag: W/"1fd-+2Y3G3w049iSZtw5t1mzSnunngE"[\r][\n]"
+18:39:34.652 [main] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-1 << "expires: -1[\r][\n]"
+18:39:34.652 [main] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-1 << "nel: {"report_to":"heroku-nel","response_headers":["Via"],"max_age":3600,"success_fraction":0.01,"failure_fraction":0.1}[\r][\n]"
+18:39:34.653 [main] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-1 << "pragma: no-cache[\r][\n]"
+18:39:34.653 [main] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-1 << "report-to: {"group":"heroku-nel","endpoints":[{"url":"https://nel.heroku.com/reports?s=4pJiyMYBX3nojzBqIpiAzXSpDO77LgP7gJskWPCZMec%3D\u0026sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d\u0026ts=1776378831"}],"max_age":3600}[\r][\n]"
+18:39:34.653 [main] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-1 << "reporting-endpoints: heroku-nel="https://nel.heroku.com/reports?s=4pJiyMYBX3nojzBqIpiAzXSpDO77LgP7gJskWPCZMec%3D&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&ts=1776378831"[\r][\n]"
+18:39:34.653 [main] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-1 << "Server: cloudflare[\r][\n]"
+18:39:34.653 [main] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-1 << "vary: Origin, Accept-Encoding[\r][\n]"
+18:39:34.653 [main] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-1 << "via: 2.0 heroku-router[\r][\n]"
+18:39:34.653 [main] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-1 << "x-content-type-options: nosniff[\r][\n]"
+18:39:34.653 [main] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-1 << "x-powered-by: Express[\r][\n]"
+18:39:34.653 [main] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-1 << "x-ratelimit-limit: 1000[\r][\n]"
+18:39:34.653 [main] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-1 << "x-ratelimit-remaining: 913[\r][\n]"
+18:39:34.653 [main] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-1 << "x-ratelimit-reset: 1776378841[\r][\n]"
+18:39:34.653 [main] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-1 << "Age: 28366[\r][\n]"
+18:39:34.653 [main] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-1 << "Server-Timing: cfCacheStatus;desc="HIT"[\r][\n]"
+18:39:34.653 [main] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-1 << "Server-Timing: cfEdge;dur=6,cfOrigin;dur=0[\r][\n]"
+18:39:34.653 [main] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-1 << "cf-cache-status: HIT[\r][\n]"
+18:39:34.653 [main] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-1 << "Content-Encoding: gzip[\r][\n]"
+18:39:34.653 [main] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-1 << "CF-RAY: 9edeed31d9f9b5d9-ATL[\r][\n]"
+18:39:34.653 [main] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-1 << "alt-svc: h3=":443"; ma=86400[\r][\n]"
+18:39:34.654 [main] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-1 << "[\r][\n]"
+18:39:34.654 [main] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-1 << "149[\r][\n]"
+18:39:34.654 [main] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-1 << "[0x1f][0xffffff8b][0x8][0x0][0x0][0x0][0x0][0x0][0x0][0xffffffff]E[0xffffff91]Mo[0xffffff83]0[0xc][0xffffff86][0xffffffef][0xfffffffd][0x15][0x11][0xffffffe7][0x5][0xffffff95][0xfffffff2][0xffffffbd][0xffffffd3]>[0xe]=[0xffffffac][0xffffff93][0xffffffa6][0xffffffed][0x17][0x18][0xffffffb0] ZH[0xffffff90][0x13][0xffffffd6][0xffffffd1][0xffffff8a][0xffffffff][0xffffffbe][0x10]Jw[0xffffff89][0xffffffe2][0xfffffff7][0xffffffb1]c[0xfffffffb][0xffffffcd]u[0xffffffc7]X [0xffffff9a][0xffffffe0][0xffffff91]E[0xf][0xffffffcb]UA[0xffffff8f].[0x8]N[0x8]J!;[0x12]t[0xffffffd0][0x7][0x1e][0xffffff8d][0x6]i[0xffffffc3]/[0xffffff84]vU[0xffffffb1][0x7]![0x17][0xffffffe9]K[0xffffffa8][0x1a][0x9][0xffffff9f]` ![0xffffffc3]J\V[0xe]MCh[0xffffff8c][0xffffffcb][0xffffffb8][0xffffffba][0xffffffd0][0x9][0xffffffc6][0x12][0xffffffba]bW[0xfffffff1]6J0[0xffffffec]$[0xffffffda]n}k[0xffffff81][0xffffffa3][0xffffffb0]"
+18:39:34.654 [main] DEBUG org.apache.hc.client5.http.headers -- http-outgoing-1 << HTTP/1.1 200 OK
+18:39:34.655 [main] DEBUG org.apache.hc.client5.http.headers -- http-outgoing-1 << Date: Fri, 17 Apr 2026 22:39:34 GMT
+18:39:34.655 [main] DEBUG org.apache.hc.client5.http.headers -- http-outgoing-1 << Content-Type: application/json; charset=utf-8
+18:39:34.655 [Thread-2] DEBUG org.apache.hc.client5.http.impl.classic.InternalHttpClient -- ep-0000000001 releasing valid endpoint
+18:39:34.655 [Thread-2] DEBUG org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager -- ep-0000000001 releasing endpoint
+18:39:34.655 [main] DEBUG org.apache.hc.client5.http.headers -- http-outgoing-1 << Transfer-Encoding: chunked
+18:39:34.655 [main] DEBUG org.apache.hc.client5.http.headers -- http-outgoing-1 << Connection: keep-alive
+18:39:34.655 [Thread-2] DEBUG org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager -- ep-0000000001 connection http-outgoing-0 can be kept alive for 3 MINUTES
+18:39:34.655 [main] DEBUG org.apache.hc.client5.http.headers -- http-outgoing-1 << access-control-allow-credentials: true
+18:39:34.655 [main] DEBUG org.apache.hc.client5.http.headers -- http-outgoing-1 << Cache-Control: max-age=43200
+18:39:34.655 [main] DEBUG org.apache.hc.client5.http.headers -- http-outgoing-1 << etag: W/"1fd-+2Y3G3w049iSZtw5t1mzSnunngE"
+18:39:34.655 [main] DEBUG org.apache.hc.client5.http.headers -- http-outgoing-1 << expires: -1
+18:39:34.655 [main] DEBUG org.apache.hc.client5.http.headers -- http-outgoing-1 << nel: {"report_to":"heroku-nel","response_headers":["Via"],"max_age":3600,"success_fraction":0.01,"failure_fraction":0.1}
+18:39:34.655 [main] DEBUG org.apache.hc.client5.http.headers -- http-outgoing-1 << pragma: no-cache
+18:39:34.655 [Thread-2] DEBUG org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager -- ep-0000000001 connection released [route: {s}->https://www.google-analytics.com:443][total available: 1; route allocated: 1 of 100; total allocated: 1 of 200]
+18:39:34.655 [main] DEBUG org.apache.hc.client5.http.headers -- http-outgoing-1 << report-to: {"group":"heroku-nel","endpoints":[{"url":"https://nel.heroku.com/reports?s=4pJiyMYBX3nojzBqIpiAzXSpDO77LgP7gJskWPCZMec%3D\u0026sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d\u0026ts=1776378831"}],"max_age":3600}
+18:39:34.656 [main] DEBUG org.apache.hc.client5.http.headers -- http-outgoing-1 << reporting-endpoints: heroku-nel="https://nel.heroku.com/reports?s=4pJiyMYBX3nojzBqIpiAzXSpDO77LgP7gJskWPCZMec%3D&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&ts=1776378831"
+18:39:34.656 [main] DEBUG org.apache.hc.client5.http.headers -- http-outgoing-1 << Server: cloudflare
+18:39:34.656 [main] DEBUG org.apache.hc.client5.http.headers -- http-outgoing-1 << vary: Origin, Accept-Encoding
+18:39:34.656 [main] DEBUG org.apache.hc.client5.http.headers -- http-outgoing-1 << via: 2.0 heroku-router
+18:39:34.656 [main] DEBUG org.apache.hc.client5.http.headers -- http-outgoing-1 << x-content-type-options: nosniff
+18:39:34.656 [main] DEBUG org.apache.hc.client5.http.headers -- http-outgoing-1 << x-powered-by: Express
+18:39:34.656 [main] DEBUG org.apache.hc.client5.http.headers -- http-outgoing-1 << x-ratelimit-limit: 1000
+18:39:34.656 [main] DEBUG org.apache.hc.client5.http.headers -- http-outgoing-1 << x-ratelimit-remaining: 913
+18:39:34.656 [main] DEBUG org.apache.hc.client5.http.headers -- http-outgoing-1 << x-ratelimit-reset: 1776378841
+18:39:34.656 [main] DEBUG org.apache.hc.client5.http.headers -- http-outgoing-1 << Age: 28366
+18:39:34.656 [main] DEBUG org.apache.hc.client5.http.headers -- http-outgoing-1 << Server-Timing: cfCacheStatus;desc="HIT"
+18:39:34.656 [main] DEBUG org.apache.hc.client5.http.headers -- http-outgoing-1 << Server-Timing: cfEdge;dur=6,cfOrigin;dur=0
+18:39:34.656 [main] DEBUG org.apache.hc.client5.http.headers -- http-outgoing-1 << cf-cache-status: HIT
+18:39:34.656 [main] DEBUG org.apache.hc.client5.http.headers -- http-outgoing-1 << Content-Encoding: gzip
+18:39:34.656 [main] DEBUG org.apache.hc.client5.http.headers -- http-outgoing-1 << CF-RAY: 9edeed31d9f9b5d9-ATL
+18:39:34.656 [main] DEBUG org.apache.hc.client5.http.headers -- http-outgoing-1 << alt-svc: h3=":443"; ma=86400
+18:39:34.657 [main] DEBUG org.apache.hc.client5.http.impl.classic.MainClientExec -- ex-0000000001 connection can be kept alive for 3 MINUTES
+18:39:34.658 [main] DEBUG au.com.dius.pact.provider.ProviderClient$Companion -- Received response: 200
+18:39:34.659 [main] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-1 << "[0xffffffbe][0xffffffc1][0xfffffff3]`C[0xffffff96][0xffffffa6][0xffffffd9][0x6]ja[0xffffffa7]E?[0xffffff9e]QU[0xffffff9a][0xfffffff4][0xffffffd8]v[0x1b][0xffffffba][0xffffff88][0xffffffa1][0xffffffd6][0xffffff8d][0xffffffaf]*[0xf]eY[0xfffffff0][0xffffffb8][0xffffffc8][0xffffff93][\r][0xffffffb6][0xffffffa8][0xffffffef][0xffffffad]]([0xffffffc1]w[0xffffffe6]q[0x1e][0xffffffc6]QZ[0xffffffde][0xffffffb2][0x16][0xffffffa0][0xffffffda][0x5][0x14]Q[0x18]%e[0x16]xyv[0xffffffe7][0xffffffec][0xffffff97][0x18]:[0xffffffad]|[0xffffff83][0xffffff88][0xffffffe7][0xfffffff9][0xffffff9e][0xffffffe7]q[0xffffffc6][0xffffff8b]}[0x1c][0xffffffb1][0xffffffdf]4K[0xffffff92][0xffffffc3][0xffffffba][0xffffffe8][0x19]+s[0x1b][0xffffffbe][0x13][0xffffffb2][0xffffffc1][0x16][0xffffffa8][0x9]5[0xffffffb5]+[0xffffffad]u?[0xffffff80][0xffffff9a][0xfffffffe]m[0xffffffd8][0xffffff9c][0xfffffffc][0xffffffd4]=[0xffffffb4]#[0x12][0xfffffff0]W[0xffffffd2][\n]"
+18:39:34.660 [main] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-1 << "[0xffffffee][0xfffffffb][0xffffff82][0xffffffad][0xffffffbb][0xffffff8f][0xffffff8e][0xffffffc0][0xfffffff8][0xffffffac][0xfffffff7]QZ[0xffffffc1]%L[0xffffffce][0xffffffe1][0xffffff86][0xffffffd5]R[0xffffffa0][0xffffffb2][0xffffffdc][0xfffffffd][0xffffffc7][0xf][0x12]S8[0x12]H[0xffffffae][0xfffffff0][0xffffffee]be[0xfffffffc][0x14]@[0xffffffca]9[0xffffffcf][0x8][0x1d][0xffffffb5][0xffffffa2]G[0xffffff86][0xffffffbc][0x7][0xfffffffa]Fk[0xffffff96][0xfffffffd][0xffffffe6][0xffffffdd][0xfffffffc][0x7]gH[0xffffffce]E[0xfffffffd][0x1][0x0][0x0][\r][\n]"
+18:39:34.660 [main] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-1 << "0[\r][\n]"
+18:39:34.660 [main] DEBUG org.apache.hc.client5.http.wire -- http-outgoing-1 << "[\r][\n]"
+18:39:34.661 [main] DEBUG org.apache.hc.client5.http.impl.classic.InternalHttpClient -- ep-0000000002 releasing valid endpoint
+18:39:34.661 [main] DEBUG org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager -- ep-0000000002 releasing endpoint
+18:39:34.661 [main] DEBUG org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager -- ep-0000000002 connection http-outgoing-1 can be kept alive for 3 MINUTES
+18:39:34.661 [main] DEBUG org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager -- ep-0000000002 connection released [route: {s}->https://jsonplaceholder.typicode.com:443][total available: 1; route allocated: 1 of 5; total allocated: 1 of 25]
+18:39:34.666 [main] DEBUG au.com.dius.pact.provider.ProviderClient$Companion -- Response: ProviderResponse(statusCode=200, headers={Date=[Fri, 17 Apr 2026 22:39:34 GMT], Content-Type=[application/json; charset=utf-8], Transfer-Encoding=[chunked], Connection=[keep-alive], access-control-allow-credentials=[true], Cache-Control=[max-age=43200], etag=[W/"1fd-+2Y3G3w049iSZtw5t1mzSnunngE"], expires=[-1], nel=[{"report_to":"heroku-nel", "response_headers":["Via"], "max_age":3600, "success_fraction":0.01, "failure_fraction":0.1}], pragma=[no-cache], report-to=[{"group":"heroku-nel", "endpoints":[{"url":"https://nel.heroku.com/reports?s=4pJiyMYBX3nojzBqIpiAzXSpDO77LgP7gJskWPCZMec%3D\u0026sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d\u0026ts=1776378831"}], "max_age":3600}], reporting-endpoints=[heroku-nel="https://nel.heroku.com/reports?s=4pJiyMYBX3nojzBqIpiAzXSpDO77LgP7gJskWPCZMec%3D&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&ts=1776378831"], Server=[cloudflare], vary=[Origin, Accept-Encoding], via=[2.0 heroku-router], x-content-type-options=[nosniff], x-powered-by=[Express], x-ratelimit-limit=[1000], x-ratelimit-remaining=[913], x-ratelimit-reset=[1776378841], Age=[28366], Server-Timing=[cfCacheStatus;desc="HIT", cfEdge;dur=6, cfOrigin;dur=0], cf-cache-status=[HIT], CF-RAY=[9edeed31d9f9b5d9-ATL], alt-svc=[h3=":443"; ma=86400]}, contentType=application/json; charset=utf-8, body=PRESENT({
+  "id": 1,
+  "name": "Leanne Graham",
+  "username": "Bret",
+  "email": "Sincere@april.biz",
+  "address": {
+    "street": "Kulas Light",
+    "suite": "Apt. 556",
+    "city": "Gwenborough",
+    "zipcode": "92998-3874",
+    "geo": {
+      "lat": "-37.3159",
+      "lng": "81.1496"
+    }
+  },
+  "phone": "1-770-736-8031 x56442",
+  "website": "hildegard.org",
+  "company": {
+    "name": "Romaguera-Crona",
+    "catchPhrase": "Multi-layered client-server neural-net",
+    "bs": "harness real-time e-markets"
+  }
+}), metadata={Date=NonBinaryData(data=["Fri, 17 Apr 2026 22:39:34 GMT"]), Content-Type=NonBinaryData(data=["application/json; charset=utf-8"]), Transfer-Encoding=NonBinaryData(data=["chunked"]), Connection=NonBinaryData(data=["keep-alive"]), access-control-allow-credentials=NonBinaryData(data=["true"]), Cache-Control=NonBinaryData(data=["max-age=43200"]), etag=NonBinaryData(data=["W/\"1fd-+2Y3G3w049iSZtw5t1mzSnunngE\""]), expires=NonBinaryData(data=["-1"]), nel=NonBinaryData(data=["{\"report_to\":\"heroku-nel\"","\"response_headers\":[\"Via\"]","\"max_age\":3600","\"success_fraction\":0.01","\"failure_fraction\":0.1}"]), pragma=NonBinaryData(data=["no-cache"]), report-to=NonBinaryData(data=["{\"group\":\"heroku-nel\"","\"endpoints\":[{\"url\":\"https://nel.heroku.com/reports?s=4pJiyMYBX3nojzBqIpiAzXSpDO77LgP7gJskWPCZMec%3D\\u0026sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d\\u0026ts=1776378831\"}]","\"max_age\":3600}"]), reporting-endpoints=NonBinaryData(data=["heroku-nel=\"https://nel.heroku.com/reports?s=4pJiyMYBX3nojzBqIpiAzXSpDO77LgP7gJskWPCZMec%3D&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&ts=1776378831\""]), Server=NonBinaryData(data=["cloudflare"]), vary=NonBinaryData(data=["Origin","Accept-Encoding"]), via=NonBinaryData(data=["2.0 heroku-router"]), x-content-type-options=NonBinaryData(data=["nosniff"]), x-powered-by=NonBinaryData(data=["Express"]), x-ratelimit-limit=NonBinaryData(data=["1000"]), x-ratelimit-remaining=NonBinaryData(data=["913"]), x-ratelimit-reset=NonBinaryData(data=["1776378841"]), Age=NonBinaryData(data=["28366"]), Server-Timing=NonBinaryData(data=["cfCacheStatus;desc=\"HIT\"","cfEdge;dur=6","cfOrigin;dur=0"]), cf-cache-status=NonBinaryData(data=["HIT"]), CF-RAY=NonBinaryData(data=["9edeed31d9f9b5d9-ATL"]), alt-svc=NonBinaryData(data=["h3=\":443\"; ma=86400"])})
+18:39:34.674 [main] DEBUG au.com.dius.pact.core.matchers.Matching -- matchBody: context=MatchingContext(matchers=MatchingRuleCategory(name=body, matchingRules={$.email=MatchingRuleGroup(rules=[au.com.dius.pact.core.model.matchingrules.TypeMatcher@79d06bbd], ruleLogic=AND, cascaded=false), $.id=MatchingRuleGroup(rules=[NumberTypeMatcher(numberType=INTEGER)], ruleLogic=AND, cascaded=false), $.name=MatchingRuleGroup(rules=[au.com.dius.pact.core.model.matchingrules.TypeMatcher@79d06bbd], ruleLogic=AND, cascaded=false), $.phone=MatchingRuleGroup(rules=[au.com.dius.pact.core.model.matchingrules.TypeMatcher@79d06bbd], ruleLogic=AND, cascaded=false)}), allowUnexpectedKeys=true, pluginConfiguration={})
+18:39:34.684 [main] DEBUG au.com.dius.pact.core.matchers.Matching -- Found a matcher for application/json -> au.com.dius.pact.core.matchers.JsonContentMatcher@4c2fb9dd
+18:39:34.697 [main] DEBUG au.com.dius.pact.core.matchers.JsonContentMatcher -- compareValues: Matcher defined for path [$, email]
+18:39:34.700 [main] DEBUG au.com.dius.pact.core.matchers.MatcherExecutor -- Matching value Sincere@april.biz at [$, email] with au.com.dius.pact.core.model.matchingrules.TypeMatcher@79d06bbd
+18:39:34.702 [main] DEBUG au.com.dius.pact.core.matchers.MatcherExecutor -- comparing type of [Sincere@april.biz] (au.com.dius.pact.core.support.json.JsonValue.StringValue, StringValue) to [Sincere@april.biz] (StringValue) at [$, email]
+18:39:34.703 [main] DEBUG au.com.dius.pact.core.matchers.JsonContentMatcher -- compareValues: Matcher defined for path [$, id]
+18:39:34.703 [main] DEBUG au.com.dius.pact.core.matchers.MatcherExecutor -- Matching value 1 at [$, id] with NumberTypeMatcher(numberType=INTEGER)
+18:39:34.706 [main] DEBUG au.com.dius.pact.core.matchers.MatcherExecutor -- comparing type of 1 (Integer) to an integer at [$, id]
+18:39:34.707 [main] DEBUG au.com.dius.pact.core.matchers.MatcherExecutor -- 1 (Integer) matches integer -> true
+18:39:34.707 [main] DEBUG au.com.dius.pact.core.matchers.JsonContentMatcher -- compareValues: Matcher defined for path [$, name]
+18:39:34.707 [main] DEBUG au.com.dius.pact.core.matchers.MatcherExecutor -- Matching value Leanne Graham at [$, name] with au.com.dius.pact.core.model.matchingrules.TypeMatcher@79d06bbd
+18:39:34.707 [main] DEBUG au.com.dius.pact.core.matchers.MatcherExecutor -- comparing type of [Leanne Graham] (au.com.dius.pact.core.support.json.JsonValue.StringValue, StringValue) to [Leanne Graham] (StringValue) at [$, name]
+18:39:34.707 [main] DEBUG au.com.dius.pact.core.matchers.JsonContentMatcher -- compareValues: Matcher defined for path [$, phone]
+18:39:34.708 [main] DEBUG au.com.dius.pact.core.matchers.MatcherExecutor -- Matching value 1-770-736-8031 x56442 at [$, phone] with au.com.dius.pact.core.model.matchingrules.TypeMatcher@79d06bbd
+18:39:34.708 [main] DEBUG au.com.dius.pact.core.matchers.MatcherExecutor -- comparing type of [1-770-736-8031 x56442] (au.com.dius.pact.core.support.json.JsonValue.StringValue, StringValue) to [1-770-736-8031 x56442] (StringValue) at [$, phone]
+18:39:34.709 [main] DEBUG au.com.dius.pact.core.matchers.HeaderMatcher -- Comparing header 'Content-Type': 'application/json; charset=utf-8' to 'application/json; charset=UTF-8'
+18:39:34.711 [main] DEBUG au.com.dius.pact.core.matchers.MatcherExecutor -- Matching value application/json; charset=utf-8 at [Content-Type] with RegexMatcher(regex=application/json(;\s?charset=[\w\-]+)?, example=null)
+18:39:34.714 [main] DEBUG au.com.dius.pact.core.matchers.MatcherExecutor -- comparing 'application/json; charset=utf-8' with regexp application/json(;\s?charset=[\w\-]+)? at [Content-Type] -> true
+    returns a response which
+      has status code 200 (OK)
+      has a matching body (OK)
+18:39:34.735 [main] DEBUG au.com.dius.pact.provider.DefaultTestResultAccumulator -- Received test result 'Ok(interactionIds=[null])' for Pact PatientService-PrescriptionService and a request to retrieve patient record for ID 1 (File target/pacts/PrescriptionService-PatientService.json)
+18:39:34.736 [main] DEBUG au.com.dius.pact.provider.DefaultTestResultAccumulator -- Number of interactions #1 and results: [Ok(interactionIds=[null])]
+18:39:34.737 [main] DEBUG au.com.dius.pact.provider.DefaultTestResultAccumulator -- All interactions for Pact PatientService-PrescriptionService have a verification result
+18:39:34.738 [main] WARN au.com.dius.pact.provider.DefaultTestResultAccumulator -- Skipping publishing of verification results as it has been disabled (pact.verifier.publishResults is not 'true')
+18:39:34.739 [main] DEBUG au.com.dius.pact.provider.junit5.PactVerificationStateChangeExtension$Companion -- afterEach for interaction 'a request to retrieve patient record for ID 1'
+]]></system-out>
+  </testcase>
+</testsuite>

@@ -96,6 +96,8 @@ Pact inverts the testing direction. The consumer team (e.g., Cart service consum
 
 **Pact Broker:** In production use, pact artifacts publish to a Pact Broker (self-hosted or PactFlow). The broker tracks which consumer versions are compatible with which provider versions — enabling `can-i-deploy` checks before any environment promotion.
 
+**What contract testing prevents — concretely:** The Patient API team decides to rename the `name` field to `fullName` to align with a new data model. Without contract testing, they update their service, their unit tests pass, their Karate smoke scenarios pass (because those scenarios only check status codes and broad schema shape), and the PR merges. PrescriptionService — which reads `response.name` to print the patient label on a prescription — now receives `null` every time it fills a prescription. The failure shows up in production as a null pointer in the label-printing service, traced back to a field rename that happened three deploys ago. With contract testing: the Patient API team's PR runs `PatientProviderTest`, which replays PrescriptionService's published contract against the renamed response. The contract asserts `name` is a string. The verification fails. The PR is blocked. The conversation happens between two engineers before a single line ships to staging.
+
 ---
 
 ## 6. Pipeline Integration
