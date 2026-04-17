@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.wag.qe.karate.KarateRunner
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.134 s -- in com.wag.qe.karate.KarateRunner

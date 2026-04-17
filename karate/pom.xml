@@ -14,10 +14,21 @@
     <name>Layer 2: Karate — BDD API Governance</name>
 
     <dependencies>
-        <!-- karate-junit5 bundles karate-core and junit-jupiter transitively -->
+        <!-- karate-junit5 bundles karate-core and junit-jupiter-api transitively -->
         <dependency>
-            <groupId>io.karatelabs</groupId>
+            <groupId>com.intuit.karate</groupId>
             <artifactId>karate-junit5</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- Surefire 3.x needs the JUnit 5 engine on the classpath to discover @Test methods -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
