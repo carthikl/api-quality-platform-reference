@@ -23,54 +23,60 @@ Postman/Newman validates HTTP responses against hand-maintained expected payload
 
 ```mermaid
 flowchart TD
-    subgraph Problem["❌ The Problem with Postman at Scale"]
-        P1["Collection Governance\nbreaks at team scale"]
-        P2["No Contract Protection\nbetween microservices"]
-        P3["Pipeline Integration\nfragile and inconsistent"]
-    end
-
-    subgraph Solution["✅ Three-Layer Solution"]
+    subgraph Problem["❌ The Problem — Postman at Enterprise Scale"]
         direction LR
-        L1["🔵 REST Assured\nFunctional API Validation\nJava-native · Code-reviewed · Parallel-safe"]
-        L2["🟢 Karate DSL\nBDD Readable Scenarios\nNon-engineer readable · Clean version control"]
-        L3["🟠 Pact\nContract Testing\nConsumer-driven · Deployment protection"]
+        P1["📁 Collection Governance\nJSON collections break\nat team scale"]
+        P2["🔗 No Contract Protection\nMicroservice changes\nbreak silently"]
+        P3["⚙️ Pipeline Integration\nFragile, inconsistent,\nnot shift-left"]
     end
 
-    subgraph Pipeline["⚙️ GitHub Actions Pipeline"]
+    subgraph Solution["✅ Three-Layer Architecture"]
         direction LR
-        PR["PR Quality Gate\nREST Assured + Karate\n(parallel)"]
-        CO["Contract Generation\nPact Consumer"]
-        PV["Contract Verification\nPact Provider"]
-        SM["Staging Smoke\nKarate @smoke only\n5 minutes max"]
+        L1["🔵 REST Assured\nFunctional Validation\nJava-native · Code-reviewed\nParallel-safe"]
+        L2["🟢 Karate DSL\nBDD Scenarios\nBusiness-readable\nClean version control"]
+        L3["🟠 Pact\nContract Testing\nConsumer-driven\nDeployment protection"]
     end
 
-    API["🌐 Target API\nJSONPlaceholder\n(represents microservices)"]
+    subgraph Pipeline["⚙️ GitHub Actions — Quality Gates"]
+        direction LR
+        subgraph parallel["On every PR — parallel"]
+            direction LR
+            PR1["REST Assured\nFunctional tests"]
+            PR2["Karate BDD\nScenario tests"]
+        end
+        CO["Pact Consumer\nContract generation"]
+        PV["Pact Provider\nContract verification"]
+        SM["Staging Smoke\nKarate @smoke\n5 min · critical paths only"]
+    end
 
-    P1 --> L2
+    API["🌐 JSONPlaceholder\nRepresents microservice layer"]
+
+    P1 --> L1
     P2 --> L3
-    P3 --> L1
+    P3 --> L2
 
-    L1 --> PR
-    L2 --> PR
-    PR --> CO
+    L1 --> PR1
+    L2 --> PR2
+    PR1 --> CO
+    PR2 --> CO
     CO --> PV
-    L2 --> SM
+    PV --> SM
 
-    L1 --> API
-    L2 --> API
-    L3 --> API
+    Solution --> API
 
     style L1 fill:#3B82F6,color:#fff,stroke:#2563EB
     style L2 fill:#22C55E,color:#fff,stroke:#16A34A
     style L3 fill:#F97316,color:#fff,stroke:#EA580C
-    style PR fill:#6B7280,color:#fff,stroke:#4B5563
+    style PR1 fill:#6B7280,color:#fff,stroke:#4B5563
+    style PR2 fill:#6B7280,color:#fff,stroke:#4B5563
     style CO fill:#6B7280,color:#fff,stroke:#4B5563
     style PV fill:#6B7280,color:#fff,stroke:#4B5563
-    style SM fill:#6B7280,color:#fff,stroke:#4B5563
+    style SM fill:#059669,color:#fff,stroke:#047857
     style API fill:#F3F4F6,color:#111,stroke:#D1D5DB
     style Problem fill:#FEF2F2,stroke:#FCA5A5
     style Solution fill:#F0FDF4,stroke:#86EFAC
     style Pipeline fill:#F8FAFC,stroke:#CBD5E1
+    style parallel fill:#EFF6FF,stroke:#BFDBFE
 ```
 
 Three testing layers, each solving exactly one of the three problems above. They are not redundant — they operate at different abstraction levels and run at different pipeline stages.
