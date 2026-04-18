@@ -21,6 +21,42 @@ Postman/Newman validates HTTP responses against hand-maintained expected payload
 
 ## 2. Architecture Decision
 
+```mermaid
+flowchart LR
+    subgraph Layers["Test Layers"]
+        RA["REST Assured\nFunctional Validation"]
+        KA["Karate\nBDD Scenarios"]
+        PA["Pact\nContract Protection"]
+    end
+
+    subgraph PRGate["PR Quality Gate"]
+        PC["Pact Consumer"]
+        PV["Pact Provider"]
+    end
+
+    subgraph Smoke["Staging Smoke"]
+        SM["Karate @smoke"]
+    end
+
+    API["JSONPlaceholder\n(Microservices)"]
+
+    RA --> PC
+    KA --> PC
+    PC --> PV
+    KA --> SM
+    RA --> API
+    KA --> API
+    PA --> API
+
+    style RA fill:#3B82F6,color:#fff
+    style KA fill:#22C55E,color:#fff
+    style PA fill:#F97316,color:#fff
+    style PC fill:#6B7280,color:#fff
+    style PV fill:#6B7280,color:#fff
+    style SM fill:#6B7280,color:#fff
+    style API fill:#E5E7EB,color:#111
+```
+
 Three testing layers, each solving exactly one of the three problems above. They are not redundant — they operate at different abstraction levels and run at different pipeline stages.
 
 ```
