@@ -26,8 +26,8 @@ flowchart TD
     subgraph Problem["❌ The Problem — Postman at Enterprise Scale"]
         direction LR
         P1["📁 Collection Governance\nJSON collections break\nat team scale"]
-        P2["🔗 No Contract Protection\nMicroservice changes\nbreak silently"]
-        P3["⚙️ Pipeline Integration\nFragile, inconsistent,\nnot shift-left"]
+        P2["⚙️ Pipeline Integration\nFragile, inconsistent,\nnot shift-left"]
+        P3["🔗 No Contract Protection\nMicroservice changes\nbreak silently"]
     end
 
     subgraph Solution["✅ Three-Layer Architecture"]
@@ -52,8 +52,8 @@ flowchart TD
     API["🌐 JSONPlaceholder\nRepresents microservice layer"]
 
     P1 --> L1
-    P2 --> L3
-    P3 --> L2
+    P2 --> L2
+    P3 --> L3
 
     L1 --> PR1
     L2 --> PR2
@@ -62,7 +62,7 @@ flowchart TD
     CO --> PV
     PV --> SM
 
-    Solution --> API
+    SM --> API
 
     style L1 fill:#3B82F6,color:#fff,stroke:#2563EB
     style L2 fill:#22C55E,color:#fff,stroke:#16A34A
