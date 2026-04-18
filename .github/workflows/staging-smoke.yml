@@ -6,10 +6,7 @@ name: Staging Smoke Test
 on:
   workflow_dispatch:
 
-# JAVA_HOME is set correctly by actions/setup-java in each job.
-# Declared here to make the Java dependency explicit at the workflow level.
 env:
-  JAVA_HOME: ${{ env.JAVA_HOME }}
   JAVA_VERSION: '17'
   API_BASE_URL: 'https://jsonplaceholder.typicode.com'
 
