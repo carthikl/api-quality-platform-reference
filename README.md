@@ -22,39 +22,55 @@ Postman/Newman validates HTTP responses against hand-maintained expected payload
 ## 2. Architecture Decision
 
 ```mermaid
-flowchart LR
-    subgraph Layers["Test Layers"]
-        RA["REST Assured\nFunctional Validation"]
-        KA["Karate\nBDD Scenarios"]
-        PA["Pact\nContract Protection"]
+flowchart TD
+    subgraph Problem["❌ The Problem with Postman at Scale"]
+        P1["Collection Governance\nbreaks at team scale"]
+        P2["No Contract Protection\nbetween microservices"]
+        P3["Pipeline Integration\nfragile and inconsistent"]
     end
 
-    subgraph PRGate["PR Quality Gate"]
-        PC["Pact Consumer"]
-        PV["Pact Provider"]
+    subgraph Solution["✅ Three-Layer Solution"]
+        direction LR
+        L1["🔵 REST Assured\nFunctional API Validation\nJava-native · Code-reviewed · Parallel-safe"]
+        L2["🟢 Karate DSL\nBDD Readable Scenarios\nNon-engineer readable · Clean version control"]
+        L3["🟠 Pact\nContract Testing\nConsumer-driven · Deployment protection"]
     end
 
-    subgraph Smoke["Staging Smoke"]
-        SM["Karate @smoke"]
+    subgraph Pipeline["⚙️ GitHub Actions Pipeline"]
+        direction LR
+        PR["PR Quality Gate\nREST Assured + Karate\n(parallel)"]
+        CO["Contract Generation\nPact Consumer"]
+        PV["Contract Verification\nPact Provider"]
+        SM["Staging Smoke\nKarate @smoke only\n5 minutes max"]
     end
 
-    API["JSONPlaceholder\n(Microservices)"]
+    API["🌐 Target API\nJSONPlaceholder\n(represents microservices)"]
 
-    RA --> PC
-    KA --> PC
-    PC --> PV
-    KA --> SM
-    RA --> API
-    KA --> API
-    PA --> API
+    P1 --> L2
+    P2 --> L3
+    P3 --> L1
 
-    style RA fill:#3B82F6,color:#fff
-    style KA fill:#22C55E,color:#fff
-    style PA fill:#F97316,color:#fff
-    style PC fill:#6B7280,color:#fff
-    style PV fill:#6B7280,color:#fff
-    style SM fill:#6B7280,color:#fff
-    style API fill:#E5E7EB,color:#111
+    L1 --> PR
+    L2 --> PR
+    PR --> CO
+    CO --> PV
+    L2 --> SM
+
+    L1 --> API
+    L2 --> API
+    L3 --> API
+
+    style L1 fill:#3B82F6,color:#fff,stroke:#2563EB
+    style L2 fill:#22C55E,color:#fff,stroke:#16A34A
+    style L3 fill:#F97316,color:#fff,stroke:#EA580C
+    style PR fill:#6B7280,color:#fff,stroke:#4B5563
+    style CO fill:#6B7280,color:#fff,stroke:#4B5563
+    style PV fill:#6B7280,color:#fff,stroke:#4B5563
+    style SM fill:#6B7280,color:#fff,stroke:#4B5563
+    style API fill:#F3F4F6,color:#111,stroke:#D1D5DB
+    style Problem fill:#FEF2F2,stroke:#FCA5A5
+    style Solution fill:#F0FDF4,stroke:#86EFAC
+    style Pipeline fill:#F8FAFC,stroke:#CBD5E1
 ```
 
 Three testing layers, each solving exactly one of the three problems above. They are not redundant — they operate at different abstraction levels and run at different pipeline stages.
