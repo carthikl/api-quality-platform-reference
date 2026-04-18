@@ -1,44 +1,59 @@
-# Architecture Decision Record: API Quality Platform
+# Architecture Decision: API Quality Platform
 
-**Status:** Accepted  
-**Date:** 2024-Q1  
-**Context:** Walgreens Digital QE Platform modernization
+**Status:** Accepted | **Context:** Walgreens Digital QE Platform — Java/Kubernetes microservices on Azure
+
+---
+
+## Context
+
+Postman/Newman fails at three things that matter at platform scale:
+
+**Governance.** When 40 engineers across 12 squads own collections in personal accounts, there is no reviewable artifact. Test changes ship without approval, environments drift silently, and there is no audit trail. This is a process problem Postman's architecture cannot solve.
+
+**Secrets management.** Postman environments export credentials as plaintext JSON. In a HIPAA/PCI environment, credentials in committed files or personal accounts are a compliance violation, not a configuration issue.
+
+**Contract visibility.** Newman validates responses against hand-maintained payloads. It has no mechanism to detect when a provider team changes a response schema and silently breaks every downstream consumer. In a microservices mesh this failure mode is invisible until production.
 
 ---
 
 ## Decision
 
-Replace Postman/Newman as the CI regression layer with a three-module Maven platform: REST Assured (functional), Karate (BDD governance), Pact (contract).
+Three-layer Maven multi-module platform, each layer solving exactly one of the above:
+
+- **REST Assured** — deep payload validation, auth flows, and stateful sequences that require Java logic
+- **Karate** — governed BDD scenarios reviewable by non-engineers; test changes are PR-gated artifacts, not personal account exports
+- **Pact** — consumer-driven contracts that surface schema drift between services at PR time, not in production
+
+---
 
 ## Alternatives Considered
 
-| Option | Rejected Because |
-|--------|-----------------|
-| Postman at scale | No code review for test changes; secrets in exported JSON; no contract awareness |
-| Cucumber + REST Assured only | Glue code overhead; no contract testing; doesn't solve governance |
-| Karate only | No native Pact broker integration; Java interop for OAuth2/mTLS is fragile |
-| Spring Cloud Contract | Provider-owned contracts invert the consumer-driven model; wrong for microservices mesh |
+**Postman only** — governance and secrets problems are architectural; no tooling layer fixes them inside Postman's model.
 
-## Consequences
+**Playwright API only** — TypeScript-first, no Pact broker integration, requires a full Node.js toolchain alongside Java services. Adds runtime heterogeneity for no gain.
 
-- **Positive:** Contract violations surface at PR time, not production. Test changes are PR-reviewable. Environment credentials stay in GitHub secrets.
-- **Positive:** A single `mvn verify` runs all three layers. Dependency versions are enforced by the parent POM.
-- **Negative:** Higher entry bar for non-Java QA contributors on REST Assured layer (mitigated by Karate for scenario authoring).
-- **Negative:** Pact broker infrastructure required for full contract propagation across teams. JSONPlaceholder used as stand-in for local development.
+**Karate only** — no native Pact broker integration; OAuth2 PKCE and mTLS flows require Java interop workarounds that undermine Karate's readability advantage.
 
-## Service Boundary Map (Walgreens Digital — reference)
+---
 
-```
-Cart Service (consumer)
-  └─ depends on → Patient Service (provider)  ← Pact contract here
-  └─ depends on → Prescription Service (provider)  ← Pact contract here
+## Trade-offs
 
-Prescription Service (consumer)
-  └─ depends on → Patient Service (provider)  ← Pact contract here
-  └─ depends on → Inventory Service (provider)
+**REST Assured:** Non-Java QA engineers cannot own these tests without ramp-up. Karate handles scenario authoring; REST Assured handles auth complexity.
 
-Notification Service (consumer)
-  └─ depends on → Prescription Service (provider)
-```
+**Karate:** Parallel execution and environment switching are built in, but Karate's Java interop for advanced flows is fragile at the edges. Scope it to what it does well.
 
-Each arrow is a contract. Each contract is a Pact consumer test on the consuming side and a provider verification on the providing side.
+**Pact:** Requires a Pact Broker to propagate contracts across teams. Without the broker, contract coverage is limited to what lives in a single repo. That infrastructure investment is required before cross-team guarantees apply.
+
+---
+
+## What This Replaces
+
+Postman's role narrows to **exploration and documentation** — the use cases it is genuinely good at. It is removed from CI entirely. Newman is removed from CI entirely. Manual environment JSON management is removed entirely.
+
+---
+
+## When to Evolve
+
+**If the org moves to TypeScript microservices:** Evaluate Pact JS for consumer tests and Playwright for functional validation. The three-layer model holds; the implementation stack changes.
+
+**If Java expertise gaps widen on QE teams:** Shift more coverage to Karate feature files. Reduce the REST Assured surface to auth flows and SLA validation only — the two cases where Java logic earns its cost.

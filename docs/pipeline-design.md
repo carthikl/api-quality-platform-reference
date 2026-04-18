@@ -1,77 +1,62 @@
-# Pipeline Design: What Runs When and Why
+# Pipeline Design
 
-## Gate Philosophy
+## The Principle
 
-A test in the wrong gate is worse than no test. Running slow Pact verification as a post-deploy check means a contract violation discovers itself in production. Running lightweight smoke tests as a PR gate means engineers wait 20 minutes for results that should take 2.
-
-Every test in this platform has an assigned gate with an explicit rationale.
+A test in the wrong gate is quality theater. Catching a contract violation post-deploy costs a rollback and an incident. Catching it on PR costs a conversation. Every gate in this pipeline has an explicit rationale for when it runs — not just what it runs.
 
 ---
 
-## PR Gate (`pr-quality-gate.yml`)
+## On Pull Request
 
-**Trigger:** Any PR targeting `main` or `develop`  
-**SLA:** Must complete in under 10 minutes
+**Workflow:** `pr-quality-gate.yml` | **Trigger:** PR → `main` or `develop`
 
-| Stage | Tool | Runtime | Rationale |
-|-------|------|---------|-----------|
-| 1 | REST Assured | ~2 min | Validates HTTP contracts of the specific service being changed |
-| 2 | Karate smoke | ~3 min | Broad coverage across service boundaries, readable by non-Java reviewers |
-| 3 | Pact consumer | ~1 min | Generates contract artifact for the PR's consumer changes |
-| 4 | Pact provider | ~2 min | Verifies provider hasn't broken any registered consumer contracts |
+| Job | What it validates | Why here |
+|-----|-------------------|----------|
+| REST Assured | HTTP behavior, schema, SLA for the changed service | Fastest signal on functional regressions; scoped to the module under change |
+| Karate @smoke | Critical paths across service boundaries | Readable by the PR reviewer; catches cross-service breakage |
+| Pact consumer | Generates the contract artifact from the changed consumer code | Contract must come from known-good code — functional tests gate this |
+| Pact provider | Verifies the provider still satisfies all consumer contracts | A provider change that breaks a downstream consumer is blocked here, not in production |
 
-All four jobs run in parallel (1, 2, 3 independent; 4 depends on 3). Total wall time under 5 minutes with parallel execution.
+Jobs 1 and 2 run in parallel. Job 3 waits on both. Job 4 waits on Job 3. Wall time under 5 minutes.
 
-**Merge block:** Any single failure blocks merge. No exceptions, no bypass without QE Director approval.
-
----
-
-## Staging Smoke (`staging-smoke.yml`)
-
-**Trigger:** `repository_dispatch` event from the deployment pipeline after a successful Kubernetes rollout  
-**SLA:** Must complete in under 5 minutes
-
-| Stage | Tool | Rationale |
-|-------|------|-----------|
-| Karate @smoke | Karate | Validates the deployment itself (DNS, ingress, service mesh, secrets injection) — not the code |
-
-**What does NOT run:**
-- REST Assured: code was already validated on PR. Running it again proves nothing about the code.
-- Pact: contracts were validated before the artifact was promoted. Re-running is redundant.
-
-**On failure:** PagerDuty alert (critical severity). Automatic rollback is the deployment pipeline's responsibility, not this workflow's.
+**Merge block is absolute.** Any failure blocks merge. No bypass without QE Director approval.
 
 ---
 
-## Secrets Strategy
+## On Merge
 
-| Secret | Scope | Rotation Owner |
-|--------|-------|---------------|
-| `PACT_BROKER_URL` | GitHub Actions environment | QE Platform team |
-| `PACT_BROKER_TOKEN` | GitHub Actions environment | QE Platform team |
-| `PAGERDUTY_INTEGRATION_KEY` | GitHub Actions environment | On-call team |
-| `API_BASE_URL` (staging) | GitHub Actions environment | DevOps |
-
-No secrets appear in pom.xml, karate-config.js, or `.feature` files. All secrets are injected as `-D` system properties at runtime by the CI runner.
+Nothing additional runs. The PR gate is the quality gate. Triggering the same tests again on merge validates the pipeline, not the code — and adds latency to a signal that already exists.
 
 ---
 
-## Local Developer Workflow
+## On Staging Deploy
 
-```bash
-# Full suite — mirrors what CI runs
-mvn verify -Dapi.base.url=https://jsonplaceholder.typicode.com
+**Workflow:** `staging-smoke.yml` | **Trigger:** `workflow_dispatch` (initiated by deployment pipeline post-rollout)
 
-# Single module, fast feedback
-mvn verify -pl rest-assured -Dapi.base.url=https://jsonplaceholder.typicode.com
+Runs Karate `@smoke` scenarios only against the live staging endpoint.
 
-# Smoke only (Karate)
-mvn verify -pl karate \
-  -Dkarate.options="--tags @smoke" \
-  -Dapi.base.url=https://jsonplaceholder.typicode.com
+This gate validates the **deployment**, not the code: DNS resolution, ingress routing, service mesh config, secrets injection. The code was already validated before the artifact was promoted. REST Assured and Pact do not re-run here — they would prove nothing new.
 
-# Pact consumer only (generate pact JSON, no broker publish)
-mvn verify -pl pact \
-  -Dtest='**/*ConsumerTest' \
-  -Dapi.base.url=https://jsonplaceholder.typicode.com
+If smoke fails, staging is unhealthy. Stop deployments until resolved.
+
+---
+
+## The Dependency Chain
+
 ```
+rest-assured-functional ──┐
+                           ├──→ pact-consumer ──→ pact-provider
+karate-bdd ────────────────┘
+```
+
+Pact consumer runs after functional tests because a contract generated from broken code is wrong by definition — it encodes the bug as a requirement and trains the provider to satisfy incorrect expectations. The sequence is not a convenience; it is a correctness constraint.
+
+---
+
+## Coverage Intelligence — Next Layer
+
+SeaLights (or equivalent) sits above this platform as the coverage analytics layer. It answers the question this pipeline cannot: **which lines of application code are exercised by which tests, and which are exercised by none.**
+
+Once integrated, SeaLights enables test impact analysis — running only the tests that cover changed code paths rather than the full suite on every PR. At platform scale (12+ services, 40+ engineers), that is the difference between a 5-minute gate and a 20-minute gate.
+
+Not implemented in this reference. Noted here because the architecture must accommodate it: test results from all three layers need to be tagged with build metadata and pushed to the SeaLights agent as a post-step in each job.
