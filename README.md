@@ -45,13 +45,13 @@ flowchart TD
             direction LR
             PR1["REST Assured\nFunctional tests"]
             PR2["Karate BDD\nScenario tests"]
-            PR3["k6 Component\nOne per endpoint"]
+            PR3["k6 Component\nOne per endpoint\n60s each"]
         end
         CO["Pact Consumer\nContract generation"]
         PV["Pact Provider\nContract verification"]
         SM["Staging Smoke\nKarate @smoke\n5 min · critical paths only"]
-        K6L["k6 System Load\nFull e2e journey"]
-        K6S["k6 Stress\nScheduled — Monday 2AM"]
+        K6L["k6 System Load\nFull e2e journey\nStaging deploy"]
+        K6S["k6 Stress\nScheduled Mon 2AM\nBreak point discovery"]
     end
 
     API["🌐 JSONPlaceholder\nRepresents microservice layer"]
