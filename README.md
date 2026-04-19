@@ -230,6 +230,18 @@ The goal is not to eliminate Postman from engineers' desktops. The goal is to re
 
 ---
 
+## Documentation
+
+| Document | Purpose |
+|---|---|
+| [Architecture Decision](docs/architecture-decision.md) | Why each layer — trade-offs and alternatives considered |
+| [Pipeline Design](docs/pipeline-design.md) | What runs when and why — the gate logic |
+| [Current State — Postman](docs/CURRENT_STATE_POSTMAN.md) | Enterprise-scale limitations of Postman/Newman |
+| [Test Pyramid](docs/TEST_PYRAMID.md) | Complete testing strategy including service virtualization gap |
+| [Build Story](docs/BUILD_STORY.md) | How this was built — AI-native productivity model |
+
+---
+
 ## Use This Skill
 
 This repository was built using a reusable Claude Code skill. The full prompt template — including all seven prompts, verification checklist, customization guide, and talking points — is available at:

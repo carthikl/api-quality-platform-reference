@@ -14,10 +14,11 @@ A test in the wrong gate is quality theater. Catching a contract violation post-
 |-----|-------------------|----------|
 | REST Assured | HTTP behavior, schema, SLA for the changed service | Fastest signal on functional regressions; scoped to the module under change |
 | Karate @smoke | Critical paths across service boundaries | Readable by the PR reviewer; catches cross-service breakage |
+| k6 component tests | p(95)<500ms threshold per endpoint — one script per endpoint | Performance regression caught at PR, not load test; runs in parallel with REST Assured and Karate |
 | Pact consumer | Generates the contract artifact from the changed consumer code | Contract must come from known-good code — functional tests gate this |
 | Pact provider | Verifies the provider still satisfies all consumer contracts | A provider change that breaks a downstream consumer is blocked here, not in production |
 
-Jobs 1 and 2 run in parallel. Job 3 waits on both. Job 4 waits on Job 3. Wall time under 5 minutes.
+Jobs 1, 2, and 3 (REST Assured, Karate, and k6 component tests) run in parallel. Five parallel jobs must pass before Pact Consumer runs. Pact Provider waits on Pact Consumer. Wall time under 5 minutes.
 
 **Merge block is absolute.** Any failure blocks merge. No bypass without QE Director approval.
 
@@ -33,11 +34,21 @@ Nothing additional runs. The PR gate is the quality gate. Triggering the same te
 
 **Workflow:** `staging-smoke.yml` | **Trigger:** `workflow_dispatch` (initiated by deployment pipeline post-rollout)
 
-Runs Karate `@smoke` scenarios only against the live staging endpoint.
+Runs Karate `@smoke` scenarios against the live staging endpoint, followed by the k6 system load test — the full prescription checkout journey at load, with a p(95)<2000ms threshold enforced end-to-end.
 
-This gate validates the **deployment**, not the code: DNS resolution, ingress routing, service mesh config, secrets injection. The code was already validated before the artifact was promoted. REST Assured and Pact do not re-run here — they would prove nothing new.
+This gate validates the **deployment**, not the code: DNS resolution, ingress routing, service mesh config, secrets injection, and system-level performance under realistic traffic. The code was already validated before the artifact was promoted. REST Assured and Pact do not re-run here — they would prove nothing new.
 
-If smoke fails, staging is unhealthy. Stop deployments until resolved.
+If smoke fails, staging is unhealthy. If k6 system load fails, the deployment is functionally live but not performance-safe. Stop promotions to production until resolved.
+
+---
+
+## Scheduled — Performance Stress
+
+**Workflow:** `performance-stress.yml` | **Trigger:** Scheduled Monday 2AM UTC, on-demand via `workflow_dispatch`
+
+Runs the k6 stress test — ramping to 200 VUs for break point discovery. This is not a regression gate; it is a capacity planning signal. The test identifies the point at which the system begins to degrade, so that capacity decisions are data-driven rather than estimated.
+
+Results are uploaded as a pipeline artifact and retained for trend comparison across runs. On-demand dispatch supports ad-hoc capacity validation before major release events or infrastructure changes.
 
 ---
 

@@ -23,6 +23,7 @@ Three-layer Maven multi-module platform, each layer solving exactly one of the a
 - **REST Assured** — deep payload validation, auth flows, and stateful sequences that require Java logic
 - **Karate** — governed BDD scenarios reviewable by non-engineers; test changes are PR-gated artifacts, not personal account exports
 - **Pact** — consumer-driven contracts that surface schema drift between services at PR time, not in production
+- **k6** — two-stage performance engineering; performance caught late in the cycle
 
 ---
 
