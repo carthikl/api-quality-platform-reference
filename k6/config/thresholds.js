@@ -2,7 +2,7 @@
 // Single endpoint, no integration overhead
 // Strict and fast
 export const componentThresholds = {
-  http_req_duration: ['p95<500', 'p99<1000'],
+  http_req_duration: ['p(95)<500', 'p(99)<1000'],
   http_req_failed: ['rate<0.01'],
 };
 
@@ -10,13 +10,13 @@ export const componentThresholds = {
 // Full e2e journey across multiple services
 // Realistic production thresholds
 export const systemThresholds = {
-  http_req_duration: ['p95<2000', 'p99<3000'],
+  http_req_duration: ['p(95)<2000', 'p(99)<3000'],
   http_req_failed: ['rate<0.01'],
   http_reqs: ['rate>10'],
 };
 
 // Stress test — break point discovery
 export const stressThresholds = {
-  http_req_duration: ['p99<5000'],
+  http_req_duration: ['p(99)<5000'],
   http_req_failed: ['rate<0.05'],
 };
