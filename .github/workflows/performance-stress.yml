@@ -1,0 +1,49 @@
+name: Performance Stress Test
+
+on:
+  # Default: Mondays at 2 AM UTC.
+  # Override by setting STRESS_TEST_SCHEDULE repository variable.
+  # Example: '0 2 * * *' for nightly.
+  # Use workflow_dispatch for on-demand execution.
+  schedule:
+    - cron: ${{ vars.STRESS_TEST_SCHEDULE || '0 2 * * 1' }}
+  workflow_dispatch:
+    inputs:
+      target_url:
+        description: 'Target URL'
+        required: false
+        default: 'https://jsonplaceholder.typicode.com'
+
+jobs:
+
+  stress-test:
+    name: k6 — Prescription Checkout Stress
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install k6
+        run: |
+          sudo gpg -k
+          sudo gpg --no-default-keyring \
+            --keyring /usr/share/keyrings/k6-archive-keyring.gpg \
+            --keyserver hkp://keyserver.ubuntu.com:80 \
+            --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69
+          echo "deb [signed-by=/usr/share/keyrings/k6-archive-keyring.gpg] https://dl.k6.io/deb stable main" | sudo tee /etc/apt/sources.list.d/k6.list
+          sudo apt-get update
+          sudo apt-get install k6
+
+      - name: Run stress test
+        run: |
+          k6 run \
+            --env API_BASE_URL=${{ github.event.inputs.target_url || 'https://jsonplaceholder.typicode.com' }} \
+            --out json=k6/reports/stress-results.json \
+            k6/system/prescription-checkout-stress.js
+
+      - name: Upload stress results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: k6-stress-results
+          path: k6/reports/

@@ -28,13 +28,15 @@ flowchart TD
         P1["📁 Collection Governance\nJSON collections break\nat team scale"]
         P2["⚙️ Pipeline Integration\nFragile, inconsistent,\nnot shift-left"]
         P3["🔗 No Contract Protection\nMicroservice changes\nbreak silently"]
+        P4["⏱️ Performance\nCaught too late\nin the cycle"]
     end
 
-    subgraph Solution["✅ Three-Layer Architecture"]
+    subgraph Solution["✅ Four-Layer Architecture"]
         direction LR
         L1["🔵 REST Assured\nFunctional Validation\nJava-native · Code-reviewed\nParallel-safe"]
         L2["🟢 Karate DSL\nBDD Scenarios\nBusiness-readable\nClean version control"]
         L3["🟠 Pact\nContract Testing\nConsumer-driven\nDeployment protection"]
+        L4["⚡ k6\nPerformance Engineering\nComponent · Load · Stress\nTwo-stage · CI-embedded"]
     end
 
     subgraph Pipeline["⚙️ GitHub Actions — Quality Gates"]
@@ -43,10 +45,13 @@ flowchart TD
             direction LR
             PR1["REST Assured\nFunctional tests"]
             PR2["Karate BDD\nScenario tests"]
+            PR3["k6 Component\nOne per endpoint"]
         end
         CO["Pact Consumer\nContract generation"]
         PV["Pact Provider\nContract verification"]
         SM["Staging Smoke\nKarate @smoke\n5 min · critical paths only"]
+        K6L["k6 System Load\nFull e2e journey"]
+        K6S["k6 Stress\nScheduled — Monday 2AM"]
     end
 
     API["🌐 JSONPlaceholder\nRepresents microservice layer"]
@@ -54,24 +59,32 @@ flowchart TD
     P1 --> L1
     P2 --> L2
     P3 --> L3
+    P4 --> L4
 
     L1 --> PR1
     L2 --> PR2
+    L4 --> PR3
     PR1 --> CO
     PR2 --> CO
+    PR3 --> CO
     CO --> PV
     PV --> SM
-
-    SM --> API
+    SM --> K6L
+    K6L --> K6S
+    K6S --> API
 
     style L1 fill:#3B82F6,color:#fff,stroke:#2563EB
     style L2 fill:#22C55E,color:#fff,stroke:#16A34A
     style L3 fill:#F97316,color:#fff,stroke:#EA580C
+    style L4 fill:#7C3AED,color:#fff,stroke:#6D28D9
     style PR1 fill:#6B7280,color:#fff,stroke:#4B5563
     style PR2 fill:#6B7280,color:#fff,stroke:#4B5563
+    style PR3 fill:#6D28D9,color:#fff,stroke:#5B21B6
     style CO fill:#6B7280,color:#fff,stroke:#4B5563
     style PV fill:#6B7280,color:#fff,stroke:#4B5563
     style SM fill:#059669,color:#fff,stroke:#047857
+    style K6L fill:#6D28D9,color:#fff,stroke:#5B21B6
+    style K6S fill:#6D28D9,color:#fff,stroke:#5B21B6
     style API fill:#F3F4F6,color:#111,stroke:#D1D5DB
     style Problem fill:#FEF2F2,stroke:#FCA5A5
     style Solution fill:#F0FDF4,stroke:#86EFAC

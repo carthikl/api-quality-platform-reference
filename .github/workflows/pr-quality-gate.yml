@@ -86,21 +86,103 @@ jobs:
           name: karate-report
           path: karate/target/karate-reports/
 
-  # ── Job 3 ────────────────────────────────────────────────────────────────
-  # Consumer contract generation — runs after functional tests pass.
+  # ── Jobs 3–5 ─────────────────────────────────────────────────────────────
+  # Component performance gates — one per endpoint, run in parallel with
+  # REST Assured and Karate. Catches response time regressions at the PR
+  # where they are introduced, not in a staging incident three sprints later.
+  # ─────────────────────────────────────────────────────────────────────────
+  k6-patient-lookup:
+    name: k6 — Patient Lookup Component
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install k6
+        run: |
+          sudo gpg -k
+          sudo gpg --no-default-keyring \
+            --keyring /usr/share/keyrings/k6-archive-keyring.gpg \
+            --keyserver hkp://keyserver.ubuntu.com:80 \
+            --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69
+          echo "deb [signed-by=/usr/share/keyrings/k6-archive-keyring.gpg] https://dl.k6.io/deb stable main" | sudo tee /etc/apt/sources.list.d/k6.list
+          sudo apt-get update
+          sudo apt-get install k6
+
+      # Component performance gate — validates patient lookup endpoint SLA on
+      # every PR. Catches regressions at the point they are introduced.
+      - name: Run patient lookup component test
+        run: |
+          k6 run \
+            --env API_BASE_URL=${{ env.API_BASE_URL }} \
+            k6/component/patient-lookup.js
+
+  k6-prescription-api:
+    name: k6 — Prescription API Component
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install k6
+        run: |
+          sudo gpg -k
+          sudo gpg --no-default-keyring \
+            --keyring /usr/share/keyrings/k6-archive-keyring.gpg \
+            --keyserver hkp://keyserver.ubuntu.com:80 \
+            --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69
+          echo "deb [signed-by=/usr/share/keyrings/k6-archive-keyring.gpg] https://dl.k6.io/deb stable main" | sudo tee /etc/apt/sources.list.d/k6.list
+          sudo apt-get update
+          sudo apt-get install k6
+
+      # Component performance gate — validates prescription submission SLA on
+      # every PR. Catches regressions at the point they are introduced.
+      - name: Run prescription API component test
+        run: |
+          k6 run \
+            --env API_BASE_URL=${{ env.API_BASE_URL }} \
+            k6/component/prescription-api.js
+
+  k6-cart-api:
+    name: k6 — Cart API Component
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install k6
+        run: |
+          sudo gpg -k
+          sudo gpg --no-default-keyring \
+            --keyring /usr/share/keyrings/k6-archive-keyring.gpg \
+            --keyserver hkp://keyserver.ubuntu.com:80 \
+            --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69
+          echo "deb [signed-by=/usr/share/keyrings/k6-archive-keyring.gpg] https://dl.k6.io/deb stable main" | sudo tee /etc/apt/sources.list.d/k6.list
+          sudo apt-get update
+          sudo apt-get install k6
+
+      # Component performance gate — validates cart lookup SLA on every PR.
+      # Catches regressions at the point they are introduced.
+      - name: Run cart API component test
+        run: |
+          k6 run \
+            --env API_BASE_URL=${{ env.API_BASE_URL }} \
+            k6/component/cart-api.js
+
+  # ── Job 6 ────────────────────────────────────────────────────────────────
+  # Consumer contract generation — runs after ALL five parallel gates pass.
   # Publishes what this service expects from its dependencies.
   # Must complete before any deployment.
   #
-  # WHY it waits for jobs 1 and 2:
-  # A contract generated from a broken codebase is wrong by definition.
-  # If PrescriptionService has a bug in how it calls PatientService, the
-  # generated contract encodes that bug as a requirement. The provider then
-  # verifies against incorrect expectations. Functional tests must pass first.
+  # WHY it waits for all five:
+  # A contract generated from a broken or slow codebase is wrong by definition.
+  # Functional correctness AND performance SLAs must be confirmed before
+  # encoding consumer expectations into a contract.
   # ─────────────────────────────────────────────────────────────────────────
   pact-consumer:
     name: Pact — Consumer Contract Generation
     runs-on: ubuntu-latest
-    needs: [rest-assured-functional, karate-bdd]
+    needs: [rest-assured-functional, karate-bdd, k6-patient-lookup, k6-prescription-api, k6-cart-api]
 
     steps:
       - uses: actions/checkout@v4
