@@ -172,13 +172,18 @@ Pact inverts the testing direction. The consumer team (e.g., Cart service consum
 
 ## 6. Pipeline Integration
 
-![PR Quality Gate — 4-job dependency chain](docs/images/pipeline-visual.png)
-*PR Quality Gate: REST Assured and Karate run in parallel, 
-feeding Pact Consumer contract generation, 
-followed by Pact Provider verification. 
-Total execution: ~80 seconds on every pull request.*
+![PR Quality Gate](docs/images/pipeline-visual.png)
+*PR Quality Gate: Five parallel jobs — REST Assured, 
+Karate BDD, and three k6 component performance gates 
+run simultaneously, feeding Pact Consumer contract 
+generation, followed by Pact Provider verification. 
+Total execution: ~2m 18s on every pull request.*
 
-Two workflows, one principle: **the right tests at the right gate.**
+Three workflows, one principle: **the right tests at the right gate, at the right time.**
+
+- **PR Quality Gate** — functional, BDD, and performance component gates on every pull request
+- **Staging Smoke** — Karate @smoke + k6 system load on every staging deployment
+- **Performance Stress** — scheduled Monday 2AM UTC, on-demand for capacity planning
 
 ### `pr-quality-gate.yml` — runs on every PR to `main`
 
