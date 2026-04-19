@@ -230,6 +230,19 @@ The goal is not to eliminate Postman from engineers' desktops. The goal is to re
 
 ---
 
+## Use This Skill
+
+This repository was built using a reusable Claude Code skill. The full prompt template — including all seven prompts, verification checklist, customization guide, and talking points — is available at:
+
+👉 [SKILL.md](SKILL.md)
+
+**Adapt it for any Java microservices project** by replacing six variables:
+- PROJECT_NAME, PACKAGE_BASE, CONSUMER_NAME, PROVIDER_NAME, TARGET_API, DOMAIN
+
+The skill produces a working three-layer API testing platform with GitHub Actions pipeline in under 9 hours using Claude Code.
+
+---
+
 ## 8. Getting Started
 
 **Prerequisites:** Java 17, Maven 3.9+
