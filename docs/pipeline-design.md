@@ -56,8 +56,14 @@ Results are uploaded as a pipeline artifact and retained for trend comparison ac
 
 ```
 rest-assured-functional ──┐
-                           ├──→ pact-consumer ──→ pact-provider
-karate-bdd ────────────────┘
+                           │
+karate-bdd ────────────────┼──→ pact-consumer ──→ pact-provider
+                           │
+k6-patient-lookup ─────────┤
+                           │
+k6-prescription-api ───────┤
+                           │
+k6-cart-api ───────────────┘
 ```
 
 Pact consumer runs after functional tests because a contract generated from broken code is wrong by definition — it encodes the bug as a requirement and trains the provider to satisfy incorrect expectations. The sequence is not a convenience; it is a correctness constraint.
