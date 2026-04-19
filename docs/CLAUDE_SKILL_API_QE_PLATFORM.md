@@ -6,7 +6,7 @@
 
 ### Purpose
 
-This skill builds a production-quality, three-layer API testing reference architecture on a Java/Maven multi-module project. Use it when replacing Postman/Newman in a CI pipeline, demonstrating enterprise QE platform thinking, or establishing a governed, code-reviewed testing foundation for a Java microservices org. The output is a fully working Maven project with REST Assured (functional validation), Karate DSL (BDD governance), and Pact (consumer-driven contract testing), wired together in a GitHub Actions pipeline with a 4-job dependency chain. Every layer is independently buildable and independently runnable against any REST API.
+This skill builds a production-quality, four-layer API testing reference architecture on a Java/Maven multi-module project. Use it when replacing Postman/Newman in a CI pipeline, demonstrating enterprise QE platform thinking, or establishing a governed, code-reviewed testing foundation for a Java microservices org. The output is a fully working Maven project with REST Assured (functional validation), Karate DSL (BDD governance), Pact (consumer-driven contract testing), and k6 (two-stage performance engineering), wired together in a GitHub Actions pipeline with a 7-job dependency chain with two-stage performance gates. Every layer is independently buildable and independently runnable against any REST API.
 
 ---
 
@@ -31,6 +31,7 @@ Replace these values throughout all prompts before using them.
 | `PROVIDER_NAME` | `PatientService` | Pact provider service name (the service receiving calls) |
 | `TARGET_API` | `https://jsonplaceholder.typicode.com` | Mock API base URL used in CI and local runs |
 | `DOMAIN` | `prescription/patient` | Business domain for test naming, feature file directories, and scenario language |
+| `PERF_SCHEDULE` | `0 2 * * 1` | Cron schedule for stress test (Monday 2AM UTC) |
 
 ---
 
@@ -484,6 +485,135 @@ pipeline-design.md must cover:
 
 ---
 
+### Prompt 8 — k6 Two-Stage Performance Layer
+
+```
+Add a two-stage k6 performance testing layer to PROJECT_NAME.
+k6 is JavaScript — not a Maven module. Do not add it to pom.xml.
+
+Create this folder structure:
+k6/
+├── README.md
+├── config/
+│   ├── thresholds.js
+│   └── environments.js
+├── component/
+│   ├── patient-lookup.js
+│   ├── prescription-api.js
+│   └── cart-api.js
+├── system/
+│   ├── prescription-checkout-load.js
+│   └── prescription-checkout-stress.js
+└── reports/
+    └── .gitkeep
+
+k6/config/environments.js:
+export const config = {
+  baseUrl: __ENV.API_BASE_URL || 'TARGET_API',
+  environment: __ENV.ENVIRONMENT || 'local',
+};
+
+k6/config/thresholds.js — three threshold tiers.
+CRITICAL: k6 threshold syntax uses p(95) not p95.
+"p95<500" will throw "failed parsing threshold expression" at runtime.
+The correct syntax is "p(95)<500".
+
+export const componentThresholds = {
+  http_req_duration: ['p(95)<500', 'p(99)<1000'],
+  http_req_failed: ['rate<0.01'],
+};
+export const systemThresholds = {
+  http_req_duration: ['p(95)<2000', 'p(99)<3000'],
+  http_req_failed: ['rate<0.01'],
+  http_reqs: ['rate>10'],
+};
+export const stressThresholds = {
+  http_req_duration: ['p(99)<5000'],
+  http_req_failed: ['rate<0.05'],
+};
+
+Component test files (k6/component/):
+Three files — one per endpoint. Each follows this pattern:
+- Import config and componentThresholds
+- stages: 15s ramp to 5 VUs → 30s hold → 15s ramp down (60s total)
+- Random patientId: Math.floor(Math.random() * 10) + 1
+- patient-lookup.js: GET /users/{id}, check status 200, duration < 500, 
+  id and name present in response body
+- prescription-api.js: POST /posts with JSON payload, check status 201,
+  duration < 500, id returned
+- cart-api.js: GET /posts?userId={id}, check status 200,
+  duration < 500, response is an array
+- All checks use r.timings.duration (not r.timings.waiting)
+- sleep(1) after each iteration
+
+System test files (k6/system/):
+prescription-checkout-load.js — full e2e journey, systemThresholds:
+  stages: 1m ramp to 20 VUs → 3m hold → 1m ramp down
+  Three groups in sequence: Patient Record Lookup, Prescription History,
+  Submit Prescription Refill
+  Each group: HTTP call, check status + SLA, sleep(Math.random() * 2 + 1)
+
+prescription-checkout-stress.js — break point discovery, stressThresholds:
+  Add this comment at top:
+  "Stress test — identifies break point and recovery behavior.
+   Run scheduled, not on every deployment.
+   Results inform capacity planning and auto-scaling thresholds."
+  stages: 2m→50 VUs, 3m→100, 2m→200, 2m hold at 200, 1m→0
+  Same three-group journey as load test
+
+Update .github/workflows/pr-quality-gate.yml:
+Add three k6 component jobs that run in PARALLEL with rest-assured-functional 
+and karate-bdd (no dependencies on each other):
+
+  k6-patient-lookup, k6-prescription-api, k6-cart-api — each with:
+  - Install k6 via apt (keyring method, not snap):
+      sudo gpg -k
+      sudo gpg --no-default-keyring \
+        --keyring /usr/share/keyrings/k6-archive-keyring.gpg \
+        --keyserver hkp://keyserver.ubuntu.com:80 \
+        --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69
+      echo "deb [signed-by=...] https://dl.k6.io/deb stable main" | sudo tee ...
+      sudo apt-get update && sudo apt-get install k6
+  - k6 run --env API_BASE_URL=${{ env.API_BASE_URL }} k6/component/{script}.js
+
+Update pact-consumer needs array to include all five parallel jobs:
+  needs: [rest-assured-functional, karate-bdd, k6-patient-lookup, 
+          k6-prescription-api, k6-cart-api]
+
+Update .github/workflows/staging-smoke.yml:
+Add k6-system-load job after staging-smoke:
+  needs: [staging-smoke]
+  Install k6, run prescription-checkout-load.js
+  --out json=k6/reports/load-results.json
+  upload-artifact: k6/reports/ as k6-load-results
+
+Create .github/workflows/performance-stress.yml:
+  on:
+    schedule:
+      - cron: 'PERF_SCHEDULE'   (literal string — NOT an expression)
+    workflow_dispatch:
+      inputs:
+        target_url: (description, required: false, default: TARGET_API)
+
+  CRITICAL: Do not use ${{ vars.X || 'default' }} in the cron field.
+  GitHub Actions does not evaluate expressions in on.schedule.cron.
+  Use a literal cron string only.
+
+  One job: stress-test
+  Install k6, run prescription-checkout-stress.js
+  --out json=k6/reports/stress-results.json
+  upload-artifact: k6/reports/ as k6-stress-results
+
+k6/README.md — peer-level, no tutorials. Cover:
+  - Two-stage model: why component gates on PR vs system load on deploy
+  - Threshold values and the reasoning behind each (p95 vs p99, 500ms vs 2000ms)
+  - Running locally (three commands)
+  - Azure Load Testing production path (reference only, not implemented)
+  - Pipeline integration table: stage, trigger, scripts, gate behavior
+```
+
+---
+
 ### Prompt 7 — Validation and Cleanup
 
 ```
@@ -537,10 +667,14 @@ After all tests pass:
 - [ ] Karate: feature files readable by a non-engineer — scenario names describe business outcomes, not HTTP operations
 - [ ] Pact: consumer contract JSON generated at `pact/target/pacts/CONSUMER_NAME-PROVIDER_NAME.json`
 - [ ] Pact: provider verification calls the real API (check logs — no mock server in provider test)
-- [ ] Pipeline: 4-job dependency chain correct — jobs 1+2 parallel, job 3 waits on both, job 4 waits on job 3
-- [ ] Pipeline: pact artifact download path in job 4 matches `@PactFolder("target/pacts")`
+- [ ] Pipeline: 7-job dependency chain correct — 5 parallel jobs (REST Assured, Karate, 3×k6 component), then Pact Consumer, then Pact Provider
+- [ ] Pipeline: pact artifact download path in job 6 matches `@PactFolder("target/pacts")`
+- [ ] k6: p(95) syntax in all threshold expressions — `p(95)<500` not `p95<500`
+- [ ] performance-stress.yml uses literal cron string — not a `${{ vars.X || 'default' }}` expression
+- [ ] Five parallel jobs in PR gate before Pact Consumer (`needs` array has all five)
+- [ ] Stress test artifacts uploaded after run (`k6/reports/` as k6-stress-results)
 - [ ] All tests passing locally before any commit
-- [ ] YAML syntax valid for both workflow files
+- [ ] YAML syntax valid for all three workflow files
 - [ ] Git log shows clean linear commit history — one commit per layer, no fixup commits visible
 
 ---
@@ -564,6 +698,9 @@ Functional tests run on PR because they're fast and scoped to the changed servic
 **5. How to answer "did you write this?"**
 Yes. Walk through these specifics: the `FailureOnlyLoggingFilter` in `ApiConfig` is a static inner class that logs at ERROR only when `response.statusCode() >= 400` — silent in the passing case. The Pact V3 format is explicit because Pact 4.6.7 defaults to V4 which requires a different DSL. The two ordered Surefire executions in `pact/pom.xml` exist because alphabetical ordering puts `PatientProviderTest` before `PrescriptionConsumerTest` — provider verification would fail on a missing artifact. The `-DfailIfNoSpecifiedTests=false` flag in CI is required when filtering by class name across a multi-execution Surefire config. These are not decisions you make by reading documentation — they come from debugging a real build.
 
+**6. Two-stage performance model — why component gates on every PR prevent the performance regression problem that only shows up in load testing two weeks before release.**
+Component gates run one script per endpoint, 60 seconds each, on every PR. A developer knows within 2 minutes whether their change degraded response time. Without this, performance testing happens as a late-stage activity — a load test run against staging two weeks before release, at which point the regression is buried in six sprints of code and root cause takes days to isolate. The system load test on staging validates the full e2e journey under realistic concurrency. The scheduled stress test is break point discovery — it informs capacity planning and auto-scaling thresholds, not a pass/fail gate. Three different purposes, three different triggers, none of them redundant.
+
 ---
 
 ### Customization Guide
@@ -577,5 +714,5 @@ Replace `rest-assured` with a Python module using `requests` and `pytest`. Use `
 **Non-Java teams (Karate becomes primary layer)**
 If the QE team cannot maintain Java code, collapse REST Assured into Karate. Karate's native HTTP client handles most functional validation scenarios. Retain Pact — it is the highest-value layer and the one with no adequate alternative. Limit Java ownership to `KarateRunner.java` and the Pact test classes; everything else is `.feature` files and `karate-config.js`.
 
-**Adding k6 performance layer**
-Add a fourth module `k6/` at the root. k6 scripts are JavaScript, so this module holds the scripts and a Maven exec plugin that invokes the k6 binary. Add a fifth job to `pr-quality-gate.yml` — `k6-performance` — that runs after `rest-assured-functional` with a threshold: p95 < 500ms. This gate runs on PR, not post-deploy, for the same reason Pact runs on PR: catching a regression before merge costs a conversation, catching it post-deploy costs a rollback.
+**k6 performance layer (already included — Prompt 8)**
+The k6 layer is built into this skill. Use Prompt 8 as written. Key reminder when adapting: cron schedule in `performance-stress.yml` must be a literal string (`'PERF_SCHEDULE'`), not a GitHub Actions expression — expressions are not evaluated in `on.schedule.cron`. Threshold syntax must use `p(95)` not `p95` — the shorthand form throws a runtime parse error in k6.
