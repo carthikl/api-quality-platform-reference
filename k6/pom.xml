@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.wag.qe</groupId>
+        <artifactId>api-quality-platform-reference</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>k6</artifactId>
+    <packaging>pom</packaging>
+
+    <name>Walgreens API Quality Platform — k6 Component Performance</name>
+    <description>
+        k6 performance component tests, invoked through Maven via exec-maven-plugin.
+        Binding k6 to the standard test phase gives `mvn test -pl k6` the same semantics
+        as every other test module in this repo — governance parity across layers.
+    </description>
+
+    <!--
+        k6 integrated via exec-maven-plugin to maintain governance parity with Java
+        test modules. A single `mvn test` command at the reactor root executes every
+        layer (REST Assured, Karate, Pact, k6) consistently — the same entrypoint CI
+        uses locally, so engineers and the PR gate run identical workflows.
+
+        The k6 binary is a prerequisite on the host (or CI runner). This module is the
+        Maven façade; it does not install k6. CI installs k6 in the `k6-*` jobs before
+        invoking either the direct `k6 run` command or `mvn test -pl k6`.
+    -->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>k6-patient-lookup</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>k6</executable>
+                            <workingDirectory>${project.basedir}/..</workingDirectory>
+                            <arguments>
+                                <argument>run</argument>
+                                <argument>k6/component/patient-lookup.js</argument>
+                            </arguments>
+                            <environmentVariables>
+                                <!--
+                                    api.base.url is passed as an environment variable so k6
+                                    scripts read it identically to how they run outside Maven.
+                                    Overridable from the command line: -Dapi.base.url=...
+                                -->
+                                <API_BASE_URL>${api.base.url}</API_BASE_URL>
+                            </environmentVariables>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
