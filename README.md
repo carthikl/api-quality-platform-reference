@@ -204,11 +204,7 @@ E2E tests the integrated system. PR tests validate individual service behavior. 
 ## 7. Pipeline Integration
 
 ![PR Quality Gate](docs/images/pipeline-visual.png)
-*PR Quality Gate: Five parallel jobs — REST Assured, 
-Karate BDD, and three k6 component performance gates 
-run simultaneously, feeding Pact Consumer contract 
-generation, followed by Pact Provider verification. 
-Total execution: ~2m 18s on every pull request.*
+*PR Quality Gate: Five parallel jobs — REST Assured, Karate BDD, and three k6 component performance gates run simultaneously, feeding Pact Consumer contract generation, followed by Pact Provider verification, and E2E prescription checkout journey on push to main. Total execution: ~4m on push to main.*
 
 Three workflows, one principle: **the right tests at the right gate, at the right time.**
 
