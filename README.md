@@ -9,13 +9,16 @@
 Postman works at the squad level. It breaks at the platform level. Three specific failure modes:
 
 **Collection governance collapses under distributed ownership.**
-When 40 engineers across 12 squads own Postman collections, there is no source-of-truth. Collections live in individual accounts, environments get duplicated with subtle drift, and there is no review gate before a test change ships. The result: flaky CI, shadow environments, and no audit trail.
+When 40 engineers across 12 squads own Postman collections, there is no source-of-truth. Collections live in individual accounts and the collection file itself is an opaque JSON blob — a diff in a pull request reveals nothing about what the test actually asserts. Environments duplicate with subtle drift. There is no enforceable naming or assertion standard across squads, and no review gate before a test change ships. The result: flaky CI, shadow environments, and no audit trail.
+
+**Pipeline consistency does not scale with squad count.**
+Newman is simple for one collection. Add 12 squads, 3 environments, and a per-endpoint test strategy, and the CI wiring multiplies across squads × environments × collections. Each team solves the same pipeline integration problem differently; the aggregate is brittle and every new squad inherits the divergence. A single reactor entrypoint — `mvn test` — that runs every layer the same way on every PR is the operating model answer to this.
 
 **Environment variable management is not secrets management.**
-Postman environments store credentials as plaintext exported JSON, committed to repos by accident, rotated by nobody, and scoped incorrectly across dev/staging/prod. In a regulated healthcare environment — HIPAA, PCI for pharmacy payments — this is not a configuration problem, it is a compliance problem.
+Postman environments store credentials as plaintext exported JSON, committed to repos by accident, rotated by nobody, and scoped incorrectly across dev/staging/prod. The JSON-per-environment model has no schema, no fail-fast on missing values, so pipelines break silently when files drift between teams. In a regulated healthcare environment — HIPAA, PCI for pharmacy payments — this is not a configuration problem, it is a compliance problem.
 
-**Newman has no contract awareness.**
-Postman/Newman validates HTTP responses against hand-maintained expected payloads. It has no mechanism to detect when a provider team changes a response schema and breaks every downstream consumer simultaneously. In a microservices mesh (Patient, Prescription, Cart, Inventory, Notification services), this class of regression is invisible until production.
+**Beyond Postman's failure modes — two concerns Postman never attempted.**
+A modern microservices platform needs contract protection between services and performance gates at PR time. Pact closes the schema-drift gap — a provider cannot rename a field without first breaking the verification build on every consumer that depends on it (Layer 3). k6 closes the performance-regression gap — component SLAs are validated on every pull request, not in a staging incident three sprints later (Layer 4). These are additions to the platform, not replacements for what Postman did.
 
 ---
 
@@ -91,7 +94,7 @@ flowchart TD
     style parallel fill:#EFF6FF,stroke:#BFDBFE
 ```
 
-Three testing layers, each solving exactly one of the three problems above. They are not redundant — they operate at different abstraction levels and run at different pipeline stages.
+Four testing layers across a Maven multi-module reactor. REST Assured and Karate replace Postman's role for functional validation, with code-reviewable artifacts under version control. Pact and k6 add concerns Postman never attempted — contract protection between services, and performance gates at PR time. Each layer operates at a different abstraction level and runs at a different pipeline stage.
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -170,7 +173,35 @@ Pact inverts the testing direction. The consumer team (e.g., Cart service consum
 
 ---
 
-## 6. Pipeline Integration
+## 6. E2E Integration Testing
+
+**Solves:** Confirming that all three microservices work correctly as an integrated system after a staging deployment.
+
+The E2E journey test in `karate/src/test/resources/features/e2e/prescription-checkout-journey.feature` traverses the full prescription checkout flow in a single Karate scenario — patient lookup through checkout confirmation — chaining the output of each service call as the input to the next.
+
+**The journey (four steps, three microservices, one scenario):**
+
+| Step | Service | Call | Extracts |
+|---|---|---|---|
+| 1 | Patient Service | `GET /api/v1/patients/{patientId}/lookup` | `patientId`, `authToken` |
+| 2 | Prescription Service | `GET /api/v1/prescriptions/active?patientId=…` | `prescriptionId` |
+| 3 | Cart Service | `POST /api/v1/cart/add` | `cartId` |
+| 4 | Cart Service | `POST /api/v1/checkout/submit` | `confirmationNumber` |
+
+Each step asserts the previous service response before calling the next. If PatientService returns 404, the scenario fails at step 1 — it does not proceed to call PrescriptionService with invalid data.
+
+**Why E2E runs on staging deploy, not on every PR:**
+E2E tests the integrated system. PR tests validate individual service behavior. Blocking a PR on a staging-level journey test couples PR velocity to staging health — a false dependency that slows down the team for the wrong reason. Contract testing (Pact) catches interface violations at PR time. E2E confirms the integrated deployment behaves correctly as a whole.
+
+**Tags:**
+- `@e2e @smoke` — the happy path scenario (patient lookup through checkout confirmation)
+- `@e2e @negative` — four failure scenarios, one per journey step
+
+**Runner:** `EndToEndRunner.java` — JUnit 5, sequential (parallel=1), gated by `-Drun.e2e=true` to prevent accidental inclusion in the PR pipeline.
+
+---
+
+## 7. Pipeline Integration
 
 ![PR Quality Gate](docs/images/pipeline-visual.png)
 *PR Quality Gate: Five parallel jobs — REST Assured, 
@@ -185,25 +216,33 @@ Three workflows, one principle: **the right tests at the right gate, at the righ
 - **Staging Smoke** — Karate @smoke + k6 system load on every staging deployment
 - **Performance Stress** — scheduled Monday 2AM UTC, on-demand for capacity planning
 
-### `pr-quality-gate.yml` — runs on every PR to `main`
+### `pr-quality-gate.yml` — runs on every PR to `main`, and E2E on merge to `main`
 
 ```
+On every PR:
 1. REST Assured tests (service-scoped, fast — ~2 min)
 2. Karate scenarios tagged @smoke (broad coverage, ~3 min)
 3. Pact consumer tests → publish pacts to broker
 4. Pact provider verification → verify published pacts
+
+On merge to main only (not on PR):
+5. E2E prescription checkout journey (EndToEndRunner, sequential)
 ```
 
-All four must pass. PR cannot merge if any fail. This is the primary regression gate.
+The first four jobs must pass before a PR can merge. The E2E job (#5) runs only on push to main — after the merge — so it does not block the PR gate.
 
 **Why Pact runs on PR, not post-deploy?**
 Contract violations discovered post-deploy require a rollback or hotfix. Discovered on PR, they require a conversation between two teams. The cost difference is an order of magnitude.
+
+**Why E2E runs on merge, not on PR?**
+E2E tests the integrated system across all three microservices. Running it on every PR would couple PR velocity to staging environment health — a false dependency. Contract tests catch interface violations early. E2E confirms the integrated deployment is sound after the artifact is built.
 
 ### `staging-smoke.yml` — runs on deploy to staging
 
 ```
 1. Karate scenarios tagged @smoke (base URL = staging endpoint)
-2. Alerting on failure via PagerDuty webhook
+2. E2E @smoke journey — prescription checkout across all three services
+3. k6 system load — full prescription checkout journey under load
 ```
 
 REST Assured and Pact do not re-run post-deploy. They validated against the artifact before it was promoted. Running them again against staging validates infrastructure, not code — that is an environment health check, not a quality gate.
@@ -212,7 +251,7 @@ REST Assured and Pact do not re-run post-deploy. They validated against the arti
 
 ---
 
-## 7. What This Replaces and What It Doesn't
+## 8. What This Replaces and What It Doesn't
 
 **Replaces:**
 - Postman collections for regression and contract testing
@@ -237,8 +276,9 @@ The goal is not to eliminate Postman from engineers' desktops. The goal is to re
 | [Architecture Decision](docs/architecture-decision.md) | Why each layer — trade-offs and alternatives considered |
 | [Pipeline Design](docs/pipeline-design.md) | What runs when and why — the gate logic |
 | [Current State — Postman](docs/CURRENT_STATE_POSTMAN.md) | Enterprise-scale limitations of Postman/Newman |
-| [Test Pyramid](docs/TEST_PYRAMID.md) | Complete testing strategy including service virtualization gap |
+| [Test Pyramid](docs/TEST_PYRAMID.md) | Complete testing strategy including E2E and service virtualization |
 | [Build Story](docs/BUILD_STORY.md) | How this was built — AI-native productivity model |
+| [E2E Journey Feature](karate/src/test/resources/features/e2e/prescription-checkout-journey.feature) | Full prescription checkout journey — patient lookup through checkout across all three microservices |
 
 ---
 
@@ -255,7 +295,7 @@ The skill produces a working three-layer API testing platform with GitHub Action
 
 ---
 
-## 8. Getting Started
+## 9. Getting Started
 
 **Prerequisites:** Java 17, Maven 3.9+
 

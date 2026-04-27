@@ -78,3 +78,45 @@ jobs:
         with:
           name: k6-load-results
           path: k6/reports/
+
+  # ── E2E Journey ───────────────────────────────────────────────────────────
+  # Runs the @e2e @smoke scenario — the full prescription checkout journey
+  # across all three microservices — after Karate @smoke confirms the
+  # deployment is healthy.
+  #
+  # WHY it runs here and not on every PR:
+  # E2E validates the integrated staging deployment as a complete system.
+  # PR tests validate individual service behavior in isolation. These are
+  # different questions. Conflating them couples PR velocity to staging health.
+  # ─────────────────────────────────────────────────────────────────────────
+  e2e-smoke-journey:
+    name: E2E — Prescription Checkout Journey (Smoke)
+    runs-on: ubuntu-latest
+    needs: [staging-smoke]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Java ${{ env.JAVA_VERSION }}
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: temurin
+          cache: maven
+
+      - name: Run E2E @smoke journey against staging
+        run: |
+          mvn test -pl karate \
+            -Dtest=EndToEndRunner \
+            -Drun.e2e=true \
+            -Dkarate.options="--tags @e2e and @smoke" \
+            -DfailIfNoSpecifiedTests=false \
+            -Dapi.base.url=${{ vars.STAGING_URL || env.API_BASE_URL }} \
+            -Dkarate.env=staging
+
+      - name: Upload E2E journey report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: e2e-smoke-journey-report
+          path: karate/target/karate-reports/

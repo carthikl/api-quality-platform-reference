@@ -45,7 +45,8 @@ The testing pyramid is not a tool selection framework. It is a risk distribution
 
 | Layer | Tool | Defect Category | When It Runs |
 |---|---|---|---|
-| E2E Integration | Karate `@smoke` | Cross-service business flow failures | Staging deploy |
+| E2E Cross-Service Journey | Karate `@e2e` | Business flow failures across all three microservices | Merge to main + staging deploy |
+| E2E Integration | Karate `@smoke` | Critical path failures on staging | Staging deploy |
 | Service Virtualization | Hoverfly / WireMock | Integration failures in isolation | PR + staging |
 | Contract Testing | Pact | Interface contract violations | PR + deploy |
 | Component Functional | REST Assured + Karate | Endpoint behavior regressions | Every PR |
@@ -56,12 +57,33 @@ The testing pyramid is not a tool selection framework. It is a risk distribution
 
 ## What This Repository Implements
 
-Four of the six layers are implemented and running in the pipeline:
+Five of the seven layers are implemented and running in the pipeline:
 
 - **Component Functional** — REST Assured + Karate ✅
 - **Contract Testing** — Pact consumer/provider ✅
 - **Performance Engineering** — k6 two-stage ✅
 - **E2E Integration** — Karate `@smoke` on staging ✅
+- **E2E Cross-Service Journey** — Karate `@e2e` prescription checkout journey ✅
+
+---
+
+## E2E Cross-Service Journey — The Deliberate Decision
+
+The E2E prescription checkout journey (`@e2e`) sits above the existing Karate `@smoke` layer. It tests a single business scenario — patient lookup through checkout confirmation — chaining three microservices in sequence: PatientService, PrescriptionService, and CartService. Each step extracts data from the previous service response and uses it as input to the next call.
+
+**Why E2E runs on staging, not in the PR gate:**
+
+The PR gate validates individual service behavior — does this endpoint return the right schema, the right status code, the right contract? That question can be answered in isolation, without other services being live. E2E asks a different question: does the integrated system — all three services, running together with their real databases and real network paths — execute the full business flow correctly? That question can only be answered against a real deployment.
+
+Blocking a PR on an E2E journey test would couple every engineer's PR velocity to the health of the staging environment. A flaky deployment, a misconfigured secret, or a transient network partition in staging would block unrelated code changes. The cost of that coupling is disproportionate to the benefit, because contract testing already catches the interface violations that would cause E2E to fail.
+
+**The deliberate placement:**
+
+- PR gate: Pact catches interface contract violations before merge. If `PatientService` renames a field, the Pact verification fails on the PR — not in staging.
+- Merge to main: E2E runs after pact-provider passes, confirming the integrated artifact is sound.
+- Staging deploy: E2E `@smoke` runs after the Karate smoke gate passes, confirming the deployed system executes the full journey.
+
+This is not a gap. It is a deliberate architectural decision: test the right thing at the right boundary.
 
 ---
 
