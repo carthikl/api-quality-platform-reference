@@ -24,9 +24,17 @@ Jobs 1, 2, and 3 (REST Assured, Karate, and k6 component tests) run in parallel.
 
 ---
 
-## On Merge
+## On Merge to Main
 
-Nothing additional runs. The PR gate is the quality gate. Triggering the same tests again on merge validates the pipeline, not the code — and adds latency to a signal that already exists.
+**Workflow:** `pr-quality-gate.yml` | **Trigger:** push to main (after PR merge)
+
+The E2E prescription checkout journey runs after pact-provider completes — confirming the integrated artifact is sound before staging promotion.
+
+| Job | What it validates | Why here |
+|---|---|---|
+| E2E Journey | Full prescription checkout across all three microservices — patient lookup through checkout confirmation | Tests the integrated system, not individual service behavior. Runs after Pact confirms interfaces are intact. |
+
+E2E does not run on the PR — only on merge. Rationale: E2E tests the integrated system. Blocking a PR on E2E would couple PR velocity to staging environment health. Pact already catches interface violations on the PR. E2E confirms the integrated artifact is sound.
 
 ---
 
@@ -37,6 +45,8 @@ Nothing additional runs. The PR gate is the quality gate. Triggering the same te
 Runs Karate `@smoke` scenarios against the live staging endpoint, followed by the k6 system load test — the full prescription checkout journey at load, with a p(95)<2000ms threshold enforced end-to-end.
 
 This gate validates the **deployment**, not the code: DNS resolution, ingress routing, service mesh config, secrets injection, and system-level performance under realistic traffic. The code was already validated before the artifact was promoted. REST Assured and Pact do not re-run here — they would prove nothing new.
+
+E2E `@smoke` also runs on staging deploy — the happy path prescription checkout journey confirming all three microservices are reachable and responding correctly after deployment.
 
 If smoke fails, staging is unhealthy. If k6 system load fails, the deployment is functionally live but not performance-safe. Stop promotions to production until resolved.
 
@@ -57,7 +67,7 @@ Results are uploaded as a pipeline artifact and retained for trend comparison ac
 ```
 rest-assured-functional ──┐
                            │
-karate-bdd ────────────────┼──→ pact-consumer ──→ pact-provider
+karate-bdd ────────────────┼──→ pact-consumer ──→ pact-provider ──→ e2e-journey
                            │
 k6-patient-lookup ─────────┤
                            │
