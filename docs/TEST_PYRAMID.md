@@ -17,38 +17,35 @@ The testing pyramid is not a tool selection framework. It is a risk distribution
 
 ---
 
-## The Complete Pyramid
+## The API Quality Engineering Pyramid
 
 ```
-                        ▲
-                       /|\
-                      / | \
-                     /  |  \
-                    / E2E/  \
-                   / Integration\
-                  /  (Karate @smoke)\
-                 /___________________\
-                /                     \
-               /  Service Virtualization\
-              /   (Hoverfly / WireMock)  \
-             /____________________________\
-            /                              \
-           /      Contract Testing          \
-          /         (Pact)                   \
-         /______________________________________\
-        /                                        \
-       /       Component Functional Testing        \
-      /        (REST Assured + Karate)              \
-     /______________________________________________ \
-    /                                                 \
-   /          Performance Engineering                  \
-  /               (k6)                                  \
- /______________________________________________________ \
-/                                                         \
-/                   Unit Testing                           \
-/              (Developer Framework)                        \
-/___________________________________________________________\
+                    ▲
+                   /|\
+                  / | \
+                 /  |  \
+                / E2E   \
+               / Journey \
+              / (Karate)  \
+             /_____________\
+            /               \
+           /  Contract Tests  \
+          /       (Pact)       \
+         /______________________\
+        /                        \
+       /    BDD API Scenarios      \
+      /       (Karate DSL)          \
+     /______________________________\
+    /                                \
+   /   Component Functional Testing   \
+  /         (REST Assured)             \
+ /________________________________________\
+/                                          \
+/      Performance Engineering (k6)         \
+/____________________________________________\
 ```
+
+Widest layer = runs most frequently on every PR. Narrowest layer = highest integration scope, runs on staging deploy.
 
 ---
 
