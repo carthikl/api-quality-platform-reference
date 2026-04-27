@@ -26,78 +26,53 @@ A modern microservices platform needs contract protection between services and p
 
 ```mermaid
 flowchart TD
-    subgraph Problem["❌ The Problem — Postman at Enterprise Scale"]
-        direction LR
-        P1["📁 Collection Governance\nJSON collections break\nat team scale"]
-        P2["⚙️ Pipeline Integration\nFragile, inconsistent,\nnot shift-left"]
-        P3["🔗 No Contract Protection\nMicroservice changes\nbreak silently"]
-        P4["⏱️ Performance\nCaught too late\nin the cycle"]
+    subgraph Problem["❌ Problem — Postman at Enterprise Scale"]
+        P1["📁 Collection Governance\nJSON blobs break at team scale"]
+        P2["⚙️ Pipeline Integration\nFragile · not shift-left"]
+        P3["🔗 No Contract Protection\nMicroservice changes break silently"]
+        P4["⏱️ Performance Caught Late\nNot in the PR pipeline"]
+        P5["🔄 No E2E Journey Coverage\nServices tested in isolation only"]
     end
 
     subgraph Solution["✅ Five-Layer Architecture"]
-        direction LR
-        L1["🔵 REST Assured\nFunctional Validation\nJava-native · Code-reviewed\nParallel-safe"]
-        L2["🟢 Karate DSL\nBDD Scenarios\nBusiness-readable\nClean version control"]
-        L3["🟠 Pact\nContract Testing\nConsumer-driven\nDeployment protection"]
-        L4["⚡ k6\nPerformance Engineering\nComponent · Load · Stress\nTwo-stage · CI-embedded"]
-        L5["🟣 Karate E2E\nJourney Testing\nCross-service chain\nStaging deploy gate"]
+        L1["🔵 REST Assured\nFunctional Validation\nJava-native · Parallel-safe"]
+        L2["🟢 Karate DSL\nBDD Scenarios\nBusiness-readable"]
+        L3["🟠 Pact\nContract Testing\nConsumer-driven"]
+        L4["🟣 k6\nPerformance Engineering\nComponent · Load · Stress"]
+        L5["🩷 Karate E2E\nJourney Testing\nCross-service chain"]
     end
 
-    subgraph Pipeline["⚙️ GitHub Actions — Quality Gates"]
-        direction LR
-        subgraph parallel["On every PR — parallel"]
-            direction LR
-            PR1["REST Assured\nFunctional tests"]
-            PR2["Karate BDD\nScenario tests"]
-            PR3["k6 Component\nOne per endpoint\n60s each"]
-        end
-        CO["Pact Consumer\nContract generation"]
-        PV["Pact Provider\nContract verification"]
-        E2E["E2E Journey\nPrescription checkout\nMerge to main + staging"]
-        SM["Staging Smoke\nKarate @smoke\n5 min · critical paths only"]
-        K6L["k6 System Load\nFull e2e journey\nStaging deploy"]
-        K6S["k6 Stress\nScheduled Mon 2AM\nBreak point discovery"]
+    subgraph Gate["⚙️ Pipeline Gates"]
+        PR["On every PR\nREST Assured · Karate\nk6 Component x3\n↓\nPact Consumer\n↓\nPact Provider"]
+        MAIN["On merge to main\nE2E Journey\nPrescription checkout"]
+        STAGING["On staging deploy\nKarate @smoke\nk6 System Load"]
+        STRESS["Scheduled Mon 2AM\nk6 Stress\nBreak point discovery"]
     end
-
-    API["🌐 JSONPlaceholder\nRepresents microservice layer"]
 
     P1 --> L1
     P2 --> L2
     P3 --> L3
     P4 --> L4
-    L4 --> L5
+    P5 --> L5
 
-    L1 --> PR1
-    L2 --> PR2
-    PR1 --> CO
-    PR2 --> CO
-    PR3 --> CO
-    CO --> PV
-    PV --> E2E
-    E2E --> SM
-    SM --> K6L
-    K6L --> K6S
-    K6S --> API
+    L1 & L2 & L3 & L4 --> PR
+    L5 --> MAIN
+    PR --> MAIN
+    MAIN --> STAGING
+    STAGING --> STRESS
 
     style L1 fill:#3B82F6,color:#fff,stroke:#2563EB
     style L2 fill:#22C55E,color:#fff,stroke:#16A34A
     style L3 fill:#F97316,color:#fff,stroke:#EA580C
     style L4 fill:#7C3AED,color:#fff,stroke:#6D28D9
     style L5 fill:#DB2777,color:#fff,stroke:#BE185D
-    style PR1 fill:#6B7280,color:#fff,stroke:#4B5563
-    style PR2 fill:#6B7280,color:#fff,stroke:#4B5563
-    style PR3 fill:#6D28D9,color:#fff,stroke:#5B21B6
-    style CO fill:#6B7280,color:#fff,stroke:#4B5563
-    style PV fill:#6B7280,color:#fff,stroke:#4B5563
-    style E2E fill:#DB2777,color:#fff,stroke:#BE185D
-    style SM fill:#059669,color:#fff,stroke:#047857
-    style K6L fill:#6D28D9,color:#fff,stroke:#5B21B6
-    style K6S fill:#6D28D9,color:#fff,stroke:#5B21B6
-    style API fill:#F3F4F6,color:#111,stroke:#D1D5DB
+    style PR fill:#374151,color:#fff,stroke:#1F2937
+    style MAIN fill:#DB2777,color:#fff,stroke:#BE185D
+    style STAGING fill:#059669,color:#fff,stroke:#047857
+    style STRESS fill:#6D28D9,color:#fff,stroke:#5B21B6
     style Problem fill:#FEF2F2,stroke:#FCA5A5
     style Solution fill:#F0FDF4,stroke:#86EFAC
-    style Pipeline fill:#F8FAFC,stroke:#CBD5E1
-    style parallel fill:#EFF6FF,stroke:#BFDBFE
+    style Gate fill:#F8FAFC,stroke:#CBD5E1
 ```
 
 Five testing layers across a Maven multi-module reactor. REST Assured and Karate replace Postman's role for functional validation, with code-reviewable artifacts under version control. Pact and k6 add concerns Postman never attempted — contract protection between services, and performance gates at PR time. Karate E2E adds the cross-service journey gate that confirms the integrated system behaves correctly as a whole. Each layer operates at a different abstraction level and runs at a different pipeline stage.
