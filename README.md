@@ -45,13 +45,13 @@ flowchart TD
             direction LR
             PR1["REST Assured\nFunctional tests"]
             PR2["Karate BDD\nScenario tests"]
-            PR3["k6 Component\nOne per endpoint"]
+            PR3["k6 Component\nOne per endpoint\n60s each"]
         end
         CO["Pact Consumer\nContract generation"]
         PV["Pact Provider\nContract verification"]
         SM["Staging Smoke\nKarate @smoke\n5 min · critical paths only"]
-        K6L["k6 System Load\nFull e2e journey"]
-        K6S["k6 Stress\nScheduled — Monday 2AM"]
+        K6L["k6 System Load\nFull e2e journey\nStaging deploy"]
+        K6S["k6 Stress\nScheduled Mon 2AM\nBreak point discovery"]
     end
 
     API["🌐 JSONPlaceholder\nRepresents microservice layer"]
@@ -63,7 +63,6 @@ flowchart TD
 
     L1 --> PR1
     L2 --> PR2
-    L4 --> PR3
     PR1 --> CO
     PR2 --> CO
     PR3 --> CO
@@ -173,13 +172,18 @@ Pact inverts the testing direction. The consumer team (e.g., Cart service consum
 
 ## 6. Pipeline Integration
 
-![PR Quality Gate — 4-job dependency chain](docs/images/pipeline-visual.png)
-*PR Quality Gate: REST Assured and Karate run in parallel, 
-feeding Pact Consumer contract generation, 
-followed by Pact Provider verification. 
-Total execution: ~80 seconds on every pull request.*
+![PR Quality Gate](docs/images/pipeline-visual.png)
+*PR Quality Gate: Five parallel jobs — REST Assured, 
+Karate BDD, and three k6 component performance gates 
+run simultaneously, feeding Pact Consumer contract 
+generation, followed by Pact Provider verification. 
+Total execution: ~2m 18s on every pull request.*
 
-Two workflows, one principle: **the right tests at the right gate.**
+Three workflows, one principle: **the right tests at the right gate, at the right time.**
+
+- **PR Quality Gate** — functional, BDD, and performance component gates on every pull request
+- **Staging Smoke** — Karate @smoke + k6 system load on every staging deployment
+- **Performance Stress** — scheduled Monday 2AM UTC, on-demand for capacity planning
 
 ### `pr-quality-gate.yml` — runs on every PR to `main`
 
@@ -223,6 +227,31 @@ REST Assured and Pact do not re-run post-deploy. They validated against the arti
 - Security scanning (OWASP ZAP, Checkmarx — separate pipeline stage)
 
 The goal is not to eliminate Postman from engineers' desktops. The goal is to remove it from the CI pipeline where its governance model does not scale.
+
+---
+
+## Documentation
+
+| Document | Purpose |
+|---|---|
+| [Architecture Decision](docs/architecture-decision.md) | Why each layer — trade-offs and alternatives considered |
+| [Pipeline Design](docs/pipeline-design.md) | What runs when and why — the gate logic |
+| [Current State — Postman](docs/CURRENT_STATE_POSTMAN.md) | Enterprise-scale limitations of Postman/Newman |
+| [Test Pyramid](docs/TEST_PYRAMID.md) | Complete testing strategy including service virtualization gap |
+| [Build Story](docs/BUILD_STORY.md) | How this was built — AI-native productivity model |
+
+---
+
+## Use This Skill
+
+This repository was built using a reusable Claude Code skill. The full prompt template — including all seven prompts, verification checklist, customization guide, and talking points — is available at:
+
+👉 [SKILL.md](SKILL.md)
+
+**Adapt it for any Java microservices project** by replacing six variables:
+- PROJECT_NAME, PACKAGE_BASE, CONSUMER_NAME, PROVIDER_NAME, TARGET_API, DOMAIN
+
+The skill produces a working three-layer API testing platform with GitHub Actions pipeline in under 9 hours using Claude Code.
 
 ---
 

@@ -2,7 +2,7 @@ name: Performance Stress Test
 
 on:
   schedule:
-    - cron: '0 2 * * 1'
+    - cron: '25 2 * * 1'
   workflow_dispatch:
     inputs:
       target_url:

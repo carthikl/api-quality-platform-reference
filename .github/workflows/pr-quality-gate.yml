@@ -109,6 +109,15 @@ jobs:
           sudo apt-get update
           sudo apt-get install k6
 
+      # Java is required for the Maven execution path below. Cached Maven deps
+      # are reused across all jobs that also hit the reactor.
+      - name: Set up Java ${{ env.JAVA_VERSION }}
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: temurin
+          cache: maven
+
       # Component performance gate — validates patient lookup endpoint SLA on
       # every PR. Catches regressions at the point they are introduced.
       - name: Run patient lookup component test
@@ -116,6 +125,17 @@ jobs:
           k6 run \
             --env API_BASE_URL=${{ env.API_BASE_URL }} \
             k6/component/patient-lookup.js
+
+      # Governance parity: invoke the same k6 script through Maven so the
+      # reactor entrypoint (`mvn test`) behaves identically to the direct k6
+      # command above. Runs alongside the direct invocation rather than
+      # replacing it, to prove the two paths produce the same result while
+      # the rest of the k6 modules are on-boarded. Once every k6 component
+      # has a Maven binding, the direct `k6 run` step will retire and CI
+      # will drive all test layers (REST Assured, Karate, Pact, k6) through
+      # a single reactor command — the operating model transformation goal.
+      - name: Run patient lookup component test via Maven
+        run: mvn test -pl k6 -Dapi.base.url=${{ env.API_BASE_URL }}
 
   k6-prescription-api:
     name: k6 — Prescription API Component
