@@ -24,6 +24,7 @@ Three-layer Maven multi-module platform, each layer solving exactly one of the a
 - **Karate** — governed BDD scenarios reviewable by non-engineers; test changes are PR-gated artifacts, not personal account exports
 - **Pact** — consumer-driven contracts that surface schema drift between services at PR time, not in production
 - **k6** — two-stage performance engineering; performance caught late in the cycle
+  - Governance note: k6 integrated via exec-maven-plugin to provide Maven execution parity alongside direct CLI execution. Teams standardizing on `mvn test` as single entry point can use: `mvn test -pl k6`
 
 ---
 

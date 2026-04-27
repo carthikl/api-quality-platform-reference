@@ -10,7 +10,7 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>k6</artifactId>
+    <artifactId>k6-performance</artifactId>
     <packaging>pom</packaging>
 
     <name>Walgreens API Quality Platform — k6 Component Performance</name>
@@ -21,13 +21,12 @@
     </description>
 
     <!--
-        k6 integrated via exec-maven-plugin to maintain governance parity with Java
-        test modules. A single `mvn test` command at the reactor root executes every
-        layer (REST Assured, Karate, Pact, k6) consistently — the same entrypoint CI
-        uses locally, so engineers and the PR gate run identical workflows.
+        k6 integrated via exec-maven-plugin to maintain governance parity with Java test
+        modules — single mvn test command executes all layers consistently across local
+        and CI environments.
 
         The k6 binary is a prerequisite on the host (or CI runner). This module is the
-        Maven façade; it does not install k6. CI installs k6 in the `k6-*` jobs before
+        Maven façade; it does not install k6. CI installs k6 in the k6-* jobs before
         invoking either the direct `k6 run` command or `mvn test -pl k6`.
     -->
     <build>

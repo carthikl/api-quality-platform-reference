@@ -127,6 +127,9 @@ jobs:
       # every PR. Catches regressions at the point they are introduced.
       - name: Run patient lookup component test
         run: |
+          # Direct k6 execution — fastest path for CI
+          # Maven alternative: mvn test -pl k6
+          # (use for teams standardizing on mvn test as single entry point)
           k6 run \
             --env API_BASE_URL=${{ env.API_BASE_URL }} \
             k6/component/patient-lookup.js
@@ -164,6 +167,9 @@ jobs:
       # every PR. Catches regressions at the point they are introduced.
       - name: Run prescription API component test
         run: |
+          # Direct k6 execution — fastest path for CI
+          # Maven alternative: mvn test -pl k6
+          # (use for teams standardizing on mvn test as single entry point)
           k6 run \
             --env API_BASE_URL=${{ env.API_BASE_URL }} \
             k6/component/prescription-api.js
@@ -190,6 +196,9 @@ jobs:
       # Catches regressions at the point they are introduced.
       - name: Run cart API component test
         run: |
+          # Direct k6 execution — fastest path for CI
+          # Maven alternative: mvn test -pl k6
+          # (use for teams standardizing on mvn test as single entry point)
           k6 run \
             --env API_BASE_URL=${{ env.API_BASE_URL }} \
             k6/component/cart-api.js
