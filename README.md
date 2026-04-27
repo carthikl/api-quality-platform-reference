@@ -26,7 +26,7 @@ A modern microservices platform needs contract protection between services and p
 
 ```mermaid
 flowchart TD
-    subgraph Problem["❌ Problem — Postman at Enterprise Scale"]
+    subgraph Problem["Problem — Postman at Enterprise Scale"]
         P1["📁 Collection Governance\nJSON blobs break at team scale"]
         P2["⚙️ Pipeline Integration\nFragile · not shift-left"]
         P3["🔗 No Contract Protection\nMicroservice changes break silently"]
@@ -34,7 +34,7 @@ flowchart TD
         P5["🔄 No E2E Journey Coverage\nServices tested in isolation only"]
     end
 
-    subgraph Solution["✅ Five-Layer Architecture"]
+    subgraph Solution["Five-Layer Architecture"]
         L1["🔵 REST Assured\nFunctional Validation\nJava-native · Parallel-safe"]
         L2["🟢 Karate DSL\nBDD Scenarios\nBusiness-readable"]
         L3["🟠 Pact\nContract Testing\nConsumer-driven"]
@@ -42,7 +42,7 @@ flowchart TD
         L5["🩷 Karate E2E\nJourney Testing\nCross-service chain"]
     end
 
-    subgraph Gate["⚙️ Pipeline Gates"]
+    subgraph Gate["Pipeline Gates"]
         PR["On every PR\nREST Assured · Karate\nk6 Component x3\n↓\nPact Consumer\n↓\nPact Provider"]
         MAIN["On merge to main\nE2E Journey\nPrescription checkout"]
         STAGING["On staging deploy\nKarate @smoke\nk6 System Load"]
