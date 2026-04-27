@@ -34,12 +34,13 @@ flowchart TD
         P4["⏱️ Performance\nCaught too late\nin the cycle"]
     end
 
-    subgraph Solution["✅ Four-Layer Architecture"]
+    subgraph Solution["✅ Five-Layer Architecture"]
         direction LR
         L1["🔵 REST Assured\nFunctional Validation\nJava-native · Code-reviewed\nParallel-safe"]
         L2["🟢 Karate DSL\nBDD Scenarios\nBusiness-readable\nClean version control"]
         L3["🟠 Pact\nContract Testing\nConsumer-driven\nDeployment protection"]
         L4["⚡ k6\nPerformance Engineering\nComponent · Load · Stress\nTwo-stage · CI-embedded"]
+        L5["🟣 Karate E2E\nJourney Testing\nCross-service chain\nStaging deploy gate"]
     end
 
     subgraph Pipeline["⚙️ GitHub Actions — Quality Gates"]
@@ -52,6 +53,7 @@ flowchart TD
         end
         CO["Pact Consumer\nContract generation"]
         PV["Pact Provider\nContract verification"]
+        E2E["E2E Journey\nPrescription checkout\nMerge to main + staging"]
         SM["Staging Smoke\nKarate @smoke\n5 min · critical paths only"]
         K6L["k6 System Load\nFull e2e journey\nStaging deploy"]
         K6S["k6 Stress\nScheduled Mon 2AM\nBreak point discovery"]
@@ -63,6 +65,7 @@ flowchart TD
     P2 --> L2
     P3 --> L3
     P4 --> L4
+    L4 --> L5
 
     L1 --> PR1
     L2 --> PR2
@@ -70,7 +73,8 @@ flowchart TD
     PR2 --> CO
     PR3 --> CO
     CO --> PV
-    PV --> SM
+    PV --> E2E
+    E2E --> SM
     SM --> K6L
     K6L --> K6S
     K6S --> API
@@ -79,11 +83,13 @@ flowchart TD
     style L2 fill:#22C55E,color:#fff,stroke:#16A34A
     style L3 fill:#F97316,color:#fff,stroke:#EA580C
     style L4 fill:#7C3AED,color:#fff,stroke:#6D28D9
+    style L5 fill:#DB2777,color:#fff,stroke:#BE185D
     style PR1 fill:#6B7280,color:#fff,stroke:#4B5563
     style PR2 fill:#6B7280,color:#fff,stroke:#4B5563
     style PR3 fill:#6D28D9,color:#fff,stroke:#5B21B6
     style CO fill:#6B7280,color:#fff,stroke:#4B5563
     style PV fill:#6B7280,color:#fff,stroke:#4B5563
+    style E2E fill:#DB2777,color:#fff,stroke:#BE185D
     style SM fill:#059669,color:#fff,stroke:#047857
     style K6L fill:#6D28D9,color:#fff,stroke:#5B21B6
     style K6S fill:#6D28D9,color:#fff,stroke:#5B21B6
@@ -94,10 +100,18 @@ flowchart TD
     style parallel fill:#EFF6FF,stroke:#BFDBFE
 ```
 
-Four testing layers across a Maven multi-module reactor. REST Assured and Karate replace Postman's role for functional validation, with code-reviewable artifacts under version control. Pact and k6 add concerns Postman never attempted — contract protection between services, and performance gates at PR time. Each layer operates at a different abstraction level and runs at a different pipeline stage.
+Five testing layers across a Maven multi-module reactor. REST Assured and Karate replace Postman's role for functional validation, with code-reviewable artifacts under version control. Pact and k6 add concerns Postman never attempted — contract protection between services, and performance gates at PR time. Karate E2E adds the cross-service journey gate that confirms the integrated system behaves correctly as a whole. Each layer operates at a different abstraction level and runs at a different pipeline stage.
 
 ```
 ┌─────────────────────────────────────────────────────────┐
+│  Layer 5: Karate E2E (Journey Testing)                  │
+│  Problem solved: Confirms integrated system behavior    │
+│  When: Merge to main + staging deploy                   │
+├─────────────────────────────────────────────────────────┤
+│  Layer 4: k6 (Performance Engineering)                  │
+│  Problem solved: Performance caught too late            │
+│  When: PR gate (component) + staging (system load)      │
+├─────────────────────────────────────────────────────────┤
 │  Layer 3: Pact (Contract Testing)                       │
 │  Problem solved: Silent schema drift between services   │
 │  When: PR gate, before any merge to main                │
