@@ -1,4 +1,15 @@
-# Test Pyramid — Complete Quality Engineering Strategy
+# API Quality Engineering Test Pyramid
+## API and Service Layer Coverage — What This Pyramid Covers and What It Does Not
+
+---
+
+## Scope of This Pyramid
+
+This pyramid covers the API and service layer of the quality engineering stack — the five layers implemented in this reference architecture. It is one slice of a complete quality engineering strategy, not the whole picture.
+
+A complete QE strategy for a modern digital platform also requires the layers documented below under "What This Pyramid Does Not Cover". Each gap is named with the recommended tool and the reason it sits outside this reference implementation.
+
+---
 
 ## The Principle
 
@@ -108,3 +119,20 @@ The question of how to test functional behavior between microservices beyond con
 ## The Operating Principle
 
 "The pyramid is not a QA artifact. It is an engineering discipline — owned by the squads, governed by the platform, measured by the outcomes."
+
+---
+
+## What This Pyramid Does Not Cover
+
+| Gap | Recommended Tool | Why Not In This Repo |
+|---|---|---|
+| UI / Browser E2E | Playwright or Selenium | Requires a frontend application. This repo tests APIs only — no React/HTML layer exists to drive. Playwright is the recommended addition for any team with a customer-facing UI. |
+| Accessibility (WCAG 2.1 AA) | axe-core (integrated with Playwright or Karate UI) | Accessibility testing requires DOM traversal. Cannot be performed at the API layer. Must run against a rendered UI. WCAG 2.1 AA compliance is a legal requirement for customer-facing digital products. |
+| Security Scanning (SAST) | Snyk Code or SonarQube | Static analysis runs against source code, not test output. Belongs in the PR pipeline as a separate stage alongside quality gates — not inside the test pyramid. |
+| API Security (DAST) | OWASP ZAP | Dynamic application security testing requires a running application with intentionally vulnerable configurations. Separate pipeline stage from functional quality gates. |
+| Compliance / Regulatory | Custom — HIPAA, PCI-DSS, pharmacy board requirements | Compliance testing is organization and regulation specific. Cannot be generalized in a reference implementation. Requires mapping regulatory requirements to testable specifications — a governance design exercise, not a tool selection. |
+| Performance at System Scale | Gatling or k6 at load balancer level | k6 in this repo tests component-level SLAs (per endpoint) and system load (full journey). Infrastructure-level performance testing — DNS resolution, CDN behavior, load balancer distribution — requires a different tool and a different environment. |
+| Chaos Engineering | Gremlin or AWS Fault Injection Simulator | Chaos engineering deliberately degrades production-like infrastructure. Requires infrastructure access and game day planning. Not a pipeline gate — a scheduled exercise. |
+| Contract Testing at Scale | Pactflow (SaaS) or self-hosted Pact Broker | This repo uses local pact files. Production implementations require a broker with can-i-deploy gates. See docs/PACT_BROKER_GUIDE.md. |
+
+Naming these gaps explicitly is not a limitation — it is an architectural decision. A reference implementation that claims completeness without the infrastructure to support it is not honest. Each gap above has a documented path to resolution when the right environment and organizational context exist.
